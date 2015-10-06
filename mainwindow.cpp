@@ -5,8 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QPixmap* image = new QPixmap(":/images/board.png");
-    QPixmap* card = new QPixmap(":/images/card1.png");
+    QPixmap* image = new QPixmap(":/images/resources/board.png");
+    QPixmap* card = new QPixmap(":/images/resources/card1.png");
 
     ui->setupUi(this);
     ui->mainImage->setPixmap(*image);
