@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->mainImage->setPixmap(*image);
     ui->cards->setPixmap(*card);
+    this->setWindowTitle("Journey at CSULB");
 }
 
 MainWindow::~MainWindow()
