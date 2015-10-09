@@ -1,0 +1,6 @@
+/* JSON file for holding information about rooms.
+This information includes following:
+	1. Title of room
+	2. Id of room
+	3. Ids of accessible rooms.
+*/
