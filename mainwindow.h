@@ -17,11 +17,14 @@ public:
     ~MainWindow();
     QString name;
 
+private slots:
+    void on_move_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage  *imageObject;
     QGraphicsScene *scene;
-    void show_image();
+    void relocate(QWidget *parent);
 };
 
 #endif // MAINWINDOW_H

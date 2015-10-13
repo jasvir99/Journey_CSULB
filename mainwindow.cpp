@@ -18,3 +18,15 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::relocate(QWidget *parent){
+    int x = parent->x();
+    int y = parent->y();
+    parent->move(x - 2, y - 3);
+}
+
+void MainWindow::on_move_clicked()
+{
+    this->relocate(ui->player1);
+    //slot to move player.
+}
