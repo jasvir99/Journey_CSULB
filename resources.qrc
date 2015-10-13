@@ -3,4 +3,7 @@
         <file>resources/board.png</file>
         <file>resources/card1.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>resources/info.json</file>
+    </qresource>
 </RCC>
