@@ -41,9 +41,8 @@
             0,
             1,
             2,
-            5,
-            6
-        ],
+            5
+         ],
         "x_value": 636,
         "y_value": 368
     },
@@ -51,7 +50,8 @@
         "title": "West walkway",
         "id": 4,
         "accessible": [
-            5,
+            0,
+	    5,
             7,
             12
         ],
@@ -134,15 +134,16 @@
         "y_value": 964
     },
     "12": {
-        "title": "North Hall",
-        "id": 12,
-        "accessible": [
-            4,
-            11,
-            13,
-            14,
-            16
-        ],
+    	"title": "North Hall",
+    	"id": 12,
+    	"accessible": [
+    	4,
+    	11,
+    	13,
+    	14,
+	15,
+    	16
+    	],
         "x_value": 316,
         "y_value": 1212
     },
@@ -166,25 +167,27 @@
         "y_value": 1008
     },
     "15": {
-        "title": "South Hall",
-        "id": 15,
-        "accessible": [
-            10,
-            14,
-            17,
-            18,
-            19,
-            20
-        ],
+    	"title": "South Hall",
+    	"id": 15,
+    	"accessible": [
+    	10,
+	12,
+    	14,
+    	17,
+    	18,
+    	19,
+    	20
+    	],
         "x_value": 1160,
         "y_value": 1222
     },
     "16": {
-        "title": "Elevator",
-        "id": 16,
-        "accessible": [
-            12
-        ],
+    	"title": "Elevator",
+    	"id": 16,
+    	"accessible": [
+    	8,
+	12
+    	],
         "x_value": 684,
         "y_value": 1476
     },
