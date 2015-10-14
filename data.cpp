@@ -36,7 +36,6 @@ QJsonArray DataProcessing::get_accessible(int place_id)
 {
     QJsonObject obj = this->read_json(place_id);
     QJsonArray accessible = obj["accessible"].toArray();
-    //qDebug()<<accessible[0].toInt();
     return accessible;
 }
 
@@ -44,6 +43,6 @@ QString DataProcessing::get_title(int place_id)
 {
     QJsonObject obj = this->read_json(place_id);
     QString title = obj["title"].toString();
-    qDebug()<<title;
+    //qDebug()<<title;
     return title;
 }
