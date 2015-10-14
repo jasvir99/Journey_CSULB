@@ -140,10 +140,7 @@ void MainWindow::on_move_clicked()
     //relocate main_player as per selected room
     this->relocate(user_data,main_player,0);
 
-    ui->move_main_player->setText("Main player moved to " + QString::number(user_data));
-
-    qDebug()<<pos_ai_player[0];
-    qDebug()<<pos_ai_player[1];
+    ui->move_main_player->setText("Main player moved to " + QString::number(user_data))
 
     //move ai player to random available room
     int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
@@ -223,9 +220,6 @@ int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
     //generate random index to get random number accessibles array.
     int random_index = this->gen_rand_number(accessibles.size());
     int random_place_id = accessibles[random_index].toInt();
-
-    qDebug()<<"random"<<random_place_id;
-    qDebug()<<"access"<<accessibles;
 
     //relocate player
     this->relocate(random_place_id,player, y_offset);
