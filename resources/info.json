@@ -101,7 +101,7 @@
             16
         ],
         "x_value": 688,
-        "y_value": 1804,
+        "y_value": 1804
     },
     "9": {
         "title": "Bratwurst Hall",
@@ -114,113 +114,113 @@
         "y_value": 1800
     },
     "10": {
-    	"title": "East Walkway",
-    	"id": 10,
-    	"accessible": [
-    	6,
-    	9,
-    	15
-    	],
+        "title": "East Walkway",
+        "id": 10,
+        "accessible": [
+            6,
+            9,
+            15
+        ],
         "x_value": 1604,
         "y_value": 1256
     },
     "11": {
-    	"title": "Computer Lab",
-    	"id": 11,
-    	"accessible": [
-    	12
-    	],
-        "x_value":364,
-        "y_value": 964,
+        "title": "Computer Lab",
+        "id": 11,
+        "accessible": [
+            12
+        ],
+        "x_value": 364,
+        "y_value": 964
     },
     "12": {
-    	"title": "North Hall",
-    	"id": 12,
-    	"accessible": [
-    	4,
-    	11,
-    	13,
-    	14,
-    	16
-    	],
+        "title": "North Hall",
+        "id": 12,
+        "accessible": [
+            4,
+            11,
+            13,
+            14,
+            16
+        ],
         "x_value": 316,
         "y_value": 1212
     },
     "13": {
-    	"title": "Room Of Retirement",
-    	"id": 13,
-    	"accessible": [
-    	12
-    	],
+        "title": "Room Of Retirement",
+        "id": 13,
+        "accessible": [
+            12
+        ],
         "x_value": 1160,
         "y_value": 122
     },
     "14": {
-    	"title": "ECS 302",
-    	"id": 14,
-    	"accessible": [
-    	12,
-    	15
-    	],
+        "title": "ECS 302",
+        "id": 14,
+        "accessible": [
+            12,
+            15
+        ],
         "x_value": 812,
         "y_value": 1008
     },
     "15": {
-    	"title": "South Hall",
-    	"id": 15,
-    	"accessible": [
-    	10,
-    	14,
-    	17,
-    	18,
-    	19,
-    	20
-    	],
+        "title": "South Hall",
+        "id": 15,
+        "accessible": [
+            10,
+            14,
+            17,
+            18,
+            19,
+            20
+        ],
         "x_value": 1160,
         "y_value": 1222
     },
     "16": {
-    	"title": "Elevator",
-    	"id": 16,
-    	"accessible": [
-    	12
-    	],
+        "title": "Elevator",
+        "id": 16,
+        "accessible": [
+            12
+        ],
         "x_value": 684,
         "y_value": 1476
     },
     "17": {
-    	"title": "ECS 308",
-    	"id": 17,
-    	"accessible": [
-    	15,
-    	],
+        "title": "ECS 308",
+        "id": 17,
+        "accessible": [
+            15
+        ],
         "x_value": 1000,
         "y_value": 1460
     },
     "18": {
-    	"title": "EAT Club",
-    	"id": 18,
-    	"accessible": [
-    	15
-    	],
+        "title": "EAT Club",
+        "id": 18,
+        "accessible": [
+            15
+        ],
         "x_value": 1100,
         "y_value": 984
     },
     "19": {
-    	"title": "CECS Conference Room",
-    	"id": 19,
-    	"accessible": [
-    	15
-    	],
+        "title": "CECS Conference Room",
+        "id": 19,
+        "accessible": [
+            15
+        ],
         "x_value": 1312,
         "y_value": 1004
     },
     "20": {
-    	"title": "Lactation Room",
-    	"id": 20,
-    	"accessible": [
-    	15
-    	],
+        "title": "Lactation Room",
+        "id": 20,
+        "accessible": [
+            15
+        ],
         "x_value": 1292,
         "y_value": 1440
     }

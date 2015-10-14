@@ -23,6 +23,12 @@
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
      <widget class="QScrollArea" name="scrollArea">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -35,9 +41,19 @@
          <height>198</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="mainImage">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
          <widget class="QLabel" name="player1">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>50</width>
@@ -51,18 +67,53 @@
            </size>
           </property>
           <property name="text">
-           <string>jasvir</string>
+           <string>Jasvir</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QLabel" name="mainImage">
+        <item row="1" column="1">
+         <widget class="QLabel" name="player2">
+          <property name="minimumSize">
+           <size>
+            <width>60</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="text">
-           <string/>
+           <string>Mayank</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="player3">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>10</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Rohit</string>
           </property>
          </widget>
         </item>
        </layout>
+       <zorder>mainImage</zorder>
+       <zorder>player3</zorder>
+       <zorder>player2</zorder>
+       <zorder>player1</zorder>
       </widget>
      </widget>
     </item>
@@ -88,10 +139,36 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QComboBox" name="rooms"/>
+         <widget class="QComboBox" name="rooms">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="start">
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="move">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="text">
            <string>Move</string>
           </property>
@@ -107,7 +184,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>278</width>
+             <width>120</width>
              <height>107</height>
             </rect>
            </property>
