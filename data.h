@@ -1,3 +1,22 @@
+/**
+ *
+ *       \file       data.h
+ *
+ *       \brief      Header file for data.cpp which includes data processing
+ *                   functions.
+ *
+ *       \version    0.1
+ *       \date       Wedenesday, October 14 2015 11:58 PT\n
+ *       Compiler    g++
+ *
+ *       \author     Jasvir Singh Grewal, jasvirsinghgrewal1991@gmail.com\n
+ *                   Mayank Kasturia, mayankkasturia1993@gmail.com
+ *
+ *       License     GNU General Public License
+ *
+ *       \source     https://github.com/jasvir99/Journey_CSULB
+ */
+
 #ifndef DATA
 #define DATA
 

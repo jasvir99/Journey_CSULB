@@ -1,3 +1,22 @@
+/**
+ *
+ *       \file       mainwindow.cpp
+ *
+ *       \brief      Include functions rendering of mainwindow and
+ *                   movement of player.
+ *
+ *       \version    0.1
+ *       \date       Wedenesday, October 14 2015 11:58 PT\n
+ *       Compiler    g++
+ *
+ *       \author     Jasvir Singh Grewal, jasvirsinghgrewal1991@gmail.com\n
+ *                   Mayank Kasturia, mayankkasturia1993@gmail.com
+ *
+ *       License     GNU General Public License
+ *
+ *       \source     https://github.com/jasvir99/Journey_CSULB
+ */
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "data.h"
@@ -82,8 +101,6 @@ void MainWindow::on_move_clicked()
     this->move_ai_player(ai_player1,pos_ai_player[0], 18);
     this->move_ai_player(ai_player2,pos_ai_player[1],36);
     this->render_room_list(user_data);
-
-
 }
 
 void MainWindow::render_room_list(int room)
