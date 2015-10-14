@@ -140,12 +140,21 @@ void MainWindow::on_move_clicked()
     //relocate main_player as per selected room
     this->relocate(user_data,main_player,0);
 
+    ui->move_main_player->setText("Main player moved to " + QString::number(user_data));
+
     qDebug()<<pos_ai_player[0];
     qDebug()<<pos_ai_player[1];
 
     //move ai player to random available room
-    this->move_ai_player(ai_player1,pos_ai_player[0], 18);
-    this->move_ai_player(ai_player2,pos_ai_player[1],36);
+    int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
+
+    ui->move_ai_1->setText("First AI player moved to " + \
+                           QString::number(pos_ai_1));
+
+    int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
+
+    ui->move_ai_2->setText("Second AI player moved to " + \
+                           QString::number(pos_ai_2));
 
     //render the list of rooms
     this->render_room_list(user_data);
@@ -196,7 +205,7 @@ void MainWindow::on_start_clicked()
     ui->move->show();
 }
 
-void MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
+int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
 {
     /*
      * This function is used to move ai players. Function accepts following
@@ -230,4 +239,6 @@ void MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
         player_index = 0;
     else
         player_index++;
+
+    return random_place_id;
 }
