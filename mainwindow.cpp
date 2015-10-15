@@ -27,11 +27,11 @@ QWidget* MainWindow::main_player = 0;
 QWidget* MainWindow::ai_player1 = 0;
 QWidget* MainWindow::ai_player2 = 0;
 
-int MainWindow::init_x_value = 812;
-int MainWindow::init_y_value = 1100;
+int MainWindow::init_x_value = 1000;
+int MainWindow::init_y_value = 1560;
 int MainWindow::player_index = 0;
 
-int MainWindow::pos_ai_player[2] = {14,14};
+int MainWindow::pos_ai_player[2] = {17,17};
 
 //Done with initialization of static data members
 
@@ -140,7 +140,8 @@ void MainWindow::on_move_clicked()
     //relocate main_player as per selected room
     this->relocate(user_data,main_player,0);
 
-    ui->move_main_player->setText("Main player moved to " + QString::number(user_data))
+    ui->move_main_player->setText("Main player moved to " + \
+                                  QString::number(user_data));
 
     //move ai player to random available room
     int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
