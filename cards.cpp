@@ -21,3 +21,5 @@
 //Initializing static data members
 
 int GamePlay::total_points[3] = {0,0,0};
+
+

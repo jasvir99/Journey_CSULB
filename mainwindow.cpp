@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "data.h"
+#include "cards.h"
 
 //Initializing static data members
 
@@ -239,4 +240,9 @@ int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
         player_index++;
 
     return random_place_id;
+}
+
+void MainWindow::set_cards_in_hand()
+{
+
 }

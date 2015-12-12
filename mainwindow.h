@@ -58,6 +58,7 @@ private:
     int gen_rand_number(int max);
     void render_room_list(int place_id);
     int move_ai_player(QWidget *player, int current_pos, int y_offset);
+    void set_cards_in_hand();
 };
 
 #endif // MAINWINDOW_H
