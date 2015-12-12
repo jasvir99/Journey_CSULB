@@ -54,12 +54,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     //After generating random numbers, prepare board
     this->prepare_board();
 
-    //render dropdown list for room number 14 which is initial player postion
-    this->render_room_list(14);
+    //render dropdown list for room number 17 which is initial player postion
+    this->render_room_list(17);
 
     //hide dropdown and move button. They will be displayed once start button
     //is clicked
-    ui->rooms->hide();
+    ui->room_list->hide();
     ui->move->hide();
 }
 
@@ -134,8 +134,8 @@ void MainWindow::on_move_clicked()
     DataProcessing data;
 
     //get current index and fetch user data.
-    int current_index = ui->rooms->currentIndex();
-    int user_data = ui->rooms->itemData(current_index).toInt();
+    QListWidgetItem* current_room = ui->room_list->currentItem();
+    int user_data = current_room->data(Qt::UserRole).toInt();
 
     //relocate main_player as per selected room
     this->relocate(user_data,main_player,0);
@@ -167,7 +167,7 @@ void MainWindow::render_room_list(int place_id)
      */
 
     //clear current list
-    ui->rooms->clear();
+    ui->room_list->clear();
 
     DataProcessing data;
 
@@ -180,7 +180,10 @@ void MainWindow::render_room_list(int place_id)
     {
         int room_id = accessibles[json_index].toInt();
         QString title = data.get_title(room_id);
-        ui->rooms->addItem(title, QVariant(room_id));
+        QListWidgetItem *newItem = new QListWidgetItem;
+        newItem->setData(Qt::UserRole, QVariant(room_id));
+        newItem->setText(title);
+        ui->room_list->addItem(newItem);
     }
 }
 
@@ -199,7 +202,7 @@ void MainWindow::on_start_clicked()
 
     // hide start button and displaye move and rooms.
     ui->start->hide();
-    ui->rooms->show();
+    ui->room_list->show();
     ui->move->show();
 }
 

@@ -27,7 +27,7 @@
 #include <QVector>
 
 namespace data {
-class DataProcessing;
+    class DataProcessing;
 }
 
 class DataProcessing : public QMainWindow
