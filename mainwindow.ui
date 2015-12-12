@@ -155,7 +155,7 @@
       <widget class="QWidget" name="scrollAreaWidgetContents_2">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>-66</x>
          <y>0</y>
          <width>544</width>
          <height>114</height>
@@ -220,7 +220,7 @@
              <x>0</x>
              <y>0</y>
              <width>1018</width>
-             <height>81</height>
+             <height>104</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -234,6 +234,13 @@
               </property>
               <property name="text">
                <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cards">
+              <property name="text">
+               <string>TextLabel</string>
               </property>
              </widget>
             </item>
