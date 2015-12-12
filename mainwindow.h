@@ -49,6 +49,8 @@ private slots:
     void on_move_clicked();
     void on_start_clicked();
 
+    void on_card_holder_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage  *imageObject;
@@ -59,6 +61,7 @@ private:
     void render_room_list(int place_id);
     int move_ai_player(QWidget *player, int current_pos, int y_offset);
     void set_cards_in_hand();
+    void set_icon_as_card();
 };
 
 #endif // MAINWINDOW_H

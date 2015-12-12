@@ -21,6 +21,8 @@
 #include "ui_mainwindow.h"
 #include "data.h"
 #include "cards.h"
+#include <iterator>
+#include <algorithm>
 
 //Initializing static data members
 
@@ -35,6 +37,8 @@ int MainWindow::player_index = 0;
 int MainWindow::pos_ai_player[2] = {17,17};
 
 //Done with initialization of static data members
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -102,6 +106,8 @@ void MainWindow::prepare_board()
     ai_player2 = players[1];
     ai_player1->setStyleSheet("color: orange");
     ai_player2->setStyleSheet("color: orange");
+    set_cards_in_hand();
+    set_icon_as_card();
 }
 
 void MainWindow::relocate(int place_id, QWidget *player, int y_offset)
@@ -141,19 +147,19 @@ void MainWindow::on_move_clicked()
     //relocate main_player as per selected room
     this->relocate(user_data,main_player,0);
 
-    ui->move_main_player->setText("Main player moved to " + \
-                                  QString::number(user_data));
+    //ui->move_main_player->setText("Main player moved to " + \
+      //                            QString::number(user_data));
 
     //move ai player to random available room
     int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
 
-    ui->move_ai_1->setText("First AI player moved to " + \
-                           QString::number(pos_ai_1));
+    //ui->move_ai_1->setText("First AI player moved to " + \
+      //                     QString::number(pos_ai_1));
 
     int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
 
-    ui->move_ai_2->setText("Second AI player moved to " + \
-                           QString::number(pos_ai_2));
+    //ui->move_ai_2->setText("Second AI player moved to " + \
+      //                     QString::number(pos_ai_2));
 
     //render the list of rooms
     this->render_room_list(user_data);
@@ -244,5 +250,63 @@ int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
 
 void MainWindow::set_cards_in_hand()
 {
+    for(int i=1; i<=5; i++)
+    {
+        qDebug()<<i;
+        int not_in_hand = 1;
+        int card_id = MainWindow::gen_rand_number(51);
+        qDebug()<<"card"<<" "<<card_id;
+        do
+        {
 
+
+            for (int j=1;j<=5;j++)
+            {
+                qDebug()<<j;
+                if(GamePlay::cards_in_hand[j] == card_id)
+                {
+                    qDebug()<<"matched";
+                    continue;
+                }
+                else
+                {
+                    qDebug()<<"not matched";
+                    not_in_hand = 0;
+                    GamePlay::cards_in_hand[i] = card_id;
+                    break;
+
+                }
+            }
+
+        }
+        while(not_in_hand != 0);
+    }
+
+    qDebug()<<GamePlay::cards_in_hand[1];
+
+}
+
+void MainWindow::set_icon_as_card()
+{
+    QString top_deck_card = QString::number(GamePlay::cards_in_hand[
+                                            GamePlay::top_card_in_hand
+            ]);
+    QString card_name = ":/images/resources/" + top_deck_card + ".png";
+    QPixmap* top_card = new QPixmap(card_name);
+    qDebug()<<card_name;
+    QIcon ButtonIcon(*top_card);
+    ui->card_holder->setIcon(QIcon());
+    ui->card_holder->setIcon(ButtonIcon);
+    ui->card_holder->setIconSize(top_card->rect().size());
+}
+void MainWindow::on_card_holder_clicked()
+{
+    GamePlay::top_card_in_hand = GamePlay::top_card_in_hand + 1;
+    if(GamePlay::top_card_in_hand > 5)
+    {
+        GamePlay::top_card_in_hand = 1;
+        set_icon_as_card();
+    }
+    else
+        set_icon_as_card();
 }

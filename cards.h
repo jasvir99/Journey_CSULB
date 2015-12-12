@@ -33,6 +33,7 @@ class GamePlay: public QMainWindow
 public:
      static int total_points[3];
      static int cards_in_hand[5];
+     static int top_card_in_hand;
 
     //public content
 

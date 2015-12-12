@@ -21,5 +21,5 @@
 //Initializing static data members
 
 int GamePlay::total_points[3] = {0,0,0};
-
-
+int GamePlay::cards_in_hand[5] = {0,0,0,0,0};
+int GamePlay::top_card_in_hand = 1;

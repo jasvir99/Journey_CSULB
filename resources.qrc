@@ -39,7 +39,6 @@
         <file>resources/4.png</file>
         <file>resources/3.png</file>
         <file>resources/2.png</file>
-        <file>resources/1.jpeg</file>
         <file>resources/51.png</file>
         <file>resources/50.png</file>
         <file>resources/49.png</file>
@@ -52,6 +51,7 @@
         <file>resources/42.png</file>
         <file>resources/41.png</file>
         <file>resources/40.png</file>
+        <file>resources/1.png</file>
     </qresource>
     <qresource prefix="/">
         <file>resources/info.json</file>
