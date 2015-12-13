@@ -28,12 +28,16 @@
 QWidget* MainWindow::main_player = 0;
 QWidget* MainWindow::ai_player1 = 0;
 QWidget* MainWindow::ai_player2 = 0;
+int MainWindow::main_player_id = 0;
+int MainWindow::ai_player1_id = 0;
+int MainWindow::ai_player2_id = 0;
 
 int MainWindow::init_x_value = 1000;
 int MainWindow::init_y_value = 1560;
 int MainWindow::player_index = 0;
 int MainWindow::human_player_turns = 1;
 int MainWindow::pos_ai_player[2] = {17,17};
+int MainWindow::current_postions[3] = {17,17,17};
 
 //Done with initialization of static data members
 
@@ -103,6 +107,9 @@ void MainWindow::prepare_board()
     main_player = players[a];
     if(a == 0)
     {
+        main_player_id = 0;
+        ai_player1_id = 1;
+        ai_player2_id = 2;
         main_player_name = ui->player1->text();
         ai_player1_name = ui->player2->text();
         ai_player2_name = ui->player3->text();
@@ -110,6 +117,9 @@ void MainWindow::prepare_board()
 
     else if(a == 1)
     {
+        main_player_id = 1;
+        ai_player1_id = 0;
+        ai_player2_id = 2;
         main_player_name = ui->player2->text();
         ai_player1_name = ui->player1->text();
         ai_player2_name = ui->player3->text();
@@ -117,6 +127,9 @@ void MainWindow::prepare_board()
 
     else
     {
+        main_player_id = 2;
+        ai_player1_id = 0;
+        ai_player2_id = 1;
         main_player_name = ui->player3->text();
         ai_player1_name = ui->player1->text();
         ai_player2_name = ui->player2->text();
@@ -315,9 +328,10 @@ void MainWindow::on_move_clicked()
         //relocate main_player as per selected room
         this->relocate(user_data,main_player,0);
         ui->moves->addItem("Main player moved to " + QString::number(user_data));
+        current_postions[main_player_id] = user_data;
     }
 
-    else if(human_player_turns = 3)
+    else if(human_player_turns == 3)
     {
         human_player_turns = human_player_turns + 1;
         //relocate main_player as per selected room
@@ -325,19 +339,20 @@ void MainWindow::on_move_clicked()
         ui->moves->addItem("Main player moved to " + QString::number(user_data));
 
         ui->move->setEnabled(false);
+        current_postions[main_player_id] = user_data;
     }
     else
     {
         //move ai player to random available room
         int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
-
         //ui->move_ai_1->setText("First AI player moved to " + \
           //                     QString::number(pos_ai_1));
-
+        current_postions[ai_player1_id] = pos_ai_1;
         int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
 
         //ui->move_ai_2->setText("Second AI player moved to " + \
           //                     QString::number(pos_ai_2));
+        current_postions[ai_player2_id] = pos_ai_2;
 
         //render the list of rooms
     }
@@ -395,8 +410,8 @@ void MainWindow::on_start_clicked()
     ui->move->setEnabled(false);
     ui->play_card->setEnabled(false);
     setup_tables();
-    GamePlay game;
-    game.initialize_map_with_objects();
+    Cards card_init;
+    card_init.initialize_map_with_objects();
 }
 
 int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
@@ -517,5 +532,8 @@ void MainWindow::on_draw_card_clicked()
 
 void MainWindow::on_play_card_clicked()
 {
-
+    int top_card = GamePlay::cards_in_hand.value(GamePlay::top_card_in_hand) + 1;
+    qDebug()<<"top card:"<<top_card;
+    qDebug()<<"current pos:"<<current_postions[main_player_id];
+    Cards::play[top_card]->main_play(main_player_id);
 }

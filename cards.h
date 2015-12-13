@@ -39,14 +39,11 @@ public:
      explicit GamePlay();
      void randomize_deck();
      int gen_rand_number(int max);
-     void main_play();
+     virtual void main_play(int player);
      static int learning_chips[3];
      static int craft_chips[3];
      static int quality_points[3];
      static int integrity_chips[3];
-     void initialize_map_with_objects();
-     typedef std::map<int, GamePlay*> card_class_map;
-     static card_class_map play;
 
     //public content
 
@@ -54,240 +51,314 @@ private:
     //private content
 };
 
+class Cards
+{
+public:
+    explicit Cards();
+    void initialize_map_with_objects();
+    typedef std::map<int, GamePlay*> card_class_map;
+    static card_class_map play;
+
+};
+
 class Cecs105 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 
 };
 
 class Maths122 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 
 };
 
 class LunchAtBrawtrustHall : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class ResearchOnCompilers : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class Cecs174 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class Cecs100 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class ExerciseInRecreation : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class FindLabUsingElevators : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class EnjoyPeace : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class ParkingViolation : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class JoiningEatOrSoccer : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class GetLateForClass : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class SayGoodByeToProfessor : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class PassMath123 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class PlayBigGame : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class PassPhysics151 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class PassKin253 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class LearnNetbeans : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class ChooseMajor : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class ScoreGoal : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class MakeDeansList : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
+
 };
 
 class PassSoccerClass : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class FallInPond : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class UseNewLaptop : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class MeetDean : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class CrashProgram : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class PressFloorButton : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class MakeAlarmBuzz : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class MeetProfessorEnglert : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class BeSoccerGoalie : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
-class TakeEffectiveClass : public GamePlay
+class TakeElectiveClass : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class MeetProfessorHoffman : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class GoToOutpost : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class AttendOralCommunication : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class PassChemsitry111 : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class LearnLinux : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class MakeFriend : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
+    void punishment();
 };
 
 class EnjoyNature : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 class ParkInStudentParking : public GamePlay
 {
 public:
-    void main_play();
+    void main_play(int player);
+    bool pre_requisite_satified(int player);
 };
 
 #endif // CARDS

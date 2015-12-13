@@ -41,9 +41,13 @@ public:
     QString main_player_name;
     QString ai_player1_name;
     QString ai_player2_name;
+    static int main_player_id;
+    static int ai_player1_id;
+    static int ai_player2_id;
     static int init_x_value;
     static int init_y_value;
     static int pos_ai_player[2];
+    static int current_postions[3];
     static int player_index;
     static int human_player_turns;
     explicit MainWindow(QWidget *parent = 0);

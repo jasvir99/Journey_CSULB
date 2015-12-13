@@ -31,7 +31,7 @@ int GamePlay::learning_chips[3] = {};
 int GamePlay::integrity_chips[3] = {};
 int GamePlay::quality_points[3] = {};
 
-std::map<int, GamePlay*> GamePlay::play;
+std::map<int, GamePlay*> Cards::play;
 
 QList<int> empty_list()
 {
@@ -45,11 +45,23 @@ QList<int> GamePlay::complete_card_deck = empty_list();
 
 GamePlay::GamePlay()
 {
-    play[0] = new Cecs100();
     for(int i = 0; i < 51; i++)
     {
         complete_card_deck.insert(i,i+1);
     }
+
+    for (int i = 0; i < 3; i++)
+    {
+        craft_chips[i] = 0;
+        learning_chips[i] = 0;
+        integrity_chips[i] = 0;
+        quality_points[i] = 0;
+    }
+}
+
+Cards::Cards()
+{
+     play[0] = new Cecs100();
 }
 
 bool GamePlay::already_have_card(int card_list_array[], int card_id,
@@ -94,207 +106,928 @@ void GamePlay::randomize_deck()
     }
 }
 
-void GamePlay::initialize_map_with_objects()
+void Cards::initialize_map_with_objects()
 {
-   // play.insert(std::make_pair(1, new Maths122()));
+    play.insert(std::make_pair(1, new Maths122()));
+    play.insert(std::make_pair(2, new LunchAtBrawtrustHall()));
+    play.insert(std::make_pair(3, new ResearchOnCompilers()));
+    play.insert(std::make_pair(4, new Cecs174()));
+    play.insert(std::make_pair(5, new Cecs100()));
+    play.insert(std::make_pair(6, new ExerciseInRecreation()));
+    play.insert(std::make_pair(7, new FindLabUsingElevators));
+    play.insert(std::make_pair(9, new EnjoyPeace));
+    play.insert(std::make_pair(10, new ParkingViolation));
+    play.insert(std::make_pair(11, new SayGoodByeToProfessor));
+    play.insert(std::make_pair(12, new JoiningEatOrSoccer));
+    play.insert(std::make_pair(13, new GetLateForClass));
+    play.insert(std::make_pair(14, new PlayBigGame));
+    //play.insert(std::make_pair(15, new Maths123()));
+    play.insert(std::make_pair(16, new PassPhysics151()));
+    play.insert(std::make_pair(17, new PassKin253()));
+    play.insert(std::make_pair(18, new LearnNetbeans()));
+    play.insert(std::make_pair(19, new ChooseMajor()));
+    play.insert(std::make_pair(20, new ScoreGoal()));
+    play.insert(std::make_pair(21, new MakeDeansList()));
+    play.insert(std::make_pair(22, new PassSoccerClass()));
+    play.insert(std::make_pair(23, new FallInPond()));
+    play.insert(std::make_pair(24, new UseNewLaptop()));
+    play.insert(std::make_pair(25, new MeetDean()));
+    play.insert(std::make_pair(26, new CrashProgram()));
+    play.insert(std::make_pair(27, new PressFloorButton()));
+    play.insert(std::make_pair(28, new MakeAlarmBuzz()));
+    play.insert(std::make_pair(29, new MeetProfessorEnglert()));
+    play.insert(std::make_pair(30, new BeSoccerGoalie()));
+    play.insert(std::make_pair(31, new TakeElectiveClass()));
+    play.insert(std::make_pair(32, new MeetProfessorHoffman()));
+    play.insert(std::make_pair(33, new GoToOutpost()));
+    play.insert(std::make_pair(34, new AttendOralCommunication()));
+    play.insert(std::make_pair(35, new PassChemsitry111()));
+    play.insert(std::make_pair(36, new LearnLinux()));
+    play.insert(std::make_pair(37, new MakeFriend()));
+    play.insert(std::make_pair(38, new EnjoyNature()));
+    play.insert(std::make_pair(39, new ParkInStudentParking));
+    play.insert(std::make_pair(40, new EnjoyPeace));
+    play.insert(std::make_pair(41, new EnjoyPeace));
+    play.insert(std::make_pair(42, new EnjoyPeace));
+    play.insert(std::make_pair(43, new EnjoyPeace));
+    play.insert(std::make_pair(44, new EnjoyPeace));
+    play.insert(std::make_pair(45, new EnjoyPeace));
+    play.insert(std::make_pair(46, new EnjoyPeace));
+    play.insert(std::make_pair(47, new EnjoyPeace));
+    play.insert(std::make_pair(48, new EnjoyPeace));
+    play.insert(std::make_pair(49, new EnjoyPeace));
+    play.insert(std::make_pair(50, new EnjoyPeace));
+    play.insert(std::make_pair(51, new EnjoyPeace));
 }
 
-void GamePlay::main_play()
+void GamePlay::main_play(int player)
 {
     qDebug()<<"This is base main_play";
 }
 
-void Cecs105::main_play()
+void Cecs105::main_play(int player)
 {
     qDebug()<<"This is cecs105";
+    if(pre_requisite_satified(player))
+    {
+        learning_chips[player] += 1;
+    }
+    else
+        qDebug()<<"fail";
 }
 
-void Maths122::main_play()
+bool Cecs105::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 14 || location == 17)
+        return true;
+    else
+        return false;
+}
+
+void Maths122::main_play(int player)
 {
     qDebug()<<"This is maths122";
+    if(pre_requisite_satified(player))
+    {
+        learning_chips[player] += 1;
+        integrity_chips[player] += 1;
+    }
+
+    else
+        qDebug()<<"fail";
 }
 
-void LunchAtBrawtrustHall::main_play()
+bool Maths122::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 7)
+        return true;
+    else
+        return false;
+}
+
+void LunchAtBrawtrustHall::main_play(int player)
 {
     qDebug()<<"This is lunch";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void ResearchOnCompilers::main_play()
+bool LunchAtBrawtrustHall::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 9)
+        return true;
+    else
+        return false;
+}
+
+void ResearchOnCompilers::main_play(int player)
 {
     qDebug()<<"This is research";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void Cecs174::main_play()
+bool ResearchOnCompilers::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 7)
+        return true;
+    else
+        return false;
+}
+
+void Cecs174::main_play(int player)
 {
     qDebug()<<"This is cecs174";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void Cecs100::main_play()
+bool Cecs174::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 14)
+        return true;
+    else
+        return false;
+}
+
+void Cecs100::main_play(int player)
 {
     qDebug()<<"This is cecs100";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void ExerciseInRecreation::main_play()
+bool Cecs100::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 17)
+        return true;
+    else
+        return false;
+}
+
+void ExerciseInRecreation::main_play(int player)
 {
     qDebug()<<"This is exercise";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void FindLabUsingElevators::main_play()
+bool ExerciseInRecreation::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 5)
+        return true;
+    else
+        return false;
+}
+
+void FindLabUsingElevators::main_play(int player)
 {
     qDebug()<<"This is findlab";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void EnjoyPeace::main_play()
+bool FindLabUsingElevators::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 16)
+        return true;
+    else
+        return false;
+}
+
+void EnjoyPeace::main_play(int player)
 {
     qDebug()<<"This is peace";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void ParkingViolation::main_play()
+bool EnjoyPeace::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 1)
+        return true;
+    else
+        return false;
+}
+
+void ParkingViolation::main_play(int player)
 {
     qDebug()<<"This is Parking";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void JoiningEatOrSoccer::main_play()
+bool ParkingViolation::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 6)
+        return true;
+    else
+        return false;
+}
+
+void JoiningEatOrSoccer::main_play(int player)
 {
     qDebug()<<"This is eatorsoccer";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void GetLateForClass::main_play()
+bool JoiningEatOrSoccer::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 18)
+        return true;
+    else
+        return false;
+}
+
+void GetLateForClass::main_play(int player)
 {
     qDebug()<<"This is late for class";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void SayGoodByeToProfessor::main_play()
+bool GetLateForClass::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location != 6)
+        return true;
+    else
+        return false;
+}
+
+void SayGoodByeToProfessor::main_play(int player)
 {
     qDebug()<<"This is good to professor";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PassMath123::main_play()
+bool SayGoodByeToProfessor::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    int craft = craft_chips[player];
+    int integrity = integrity_chips[player];
+    if(location == 13 && learning >= 6 && craft >= 6 && integrity >= 6)
+        return true;
+    else
+        return false;
+}
+
+void SayGoodByeToProfessor::punishment()
+{
+
+}
+
+void PassMath123::main_play(int player)
 {
     qDebug()<<"This is pass math 123";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PlayBigGame::main_play()
+bool PassMath123::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if((location == 14 || location == 17) && learning >= 5)
+        return true;
+    else
+        return false;
+}
+
+void PassMath123::punishment()
+{
+
+}
+
+void PlayBigGame::main_play(int player)
 {
     qDebug()<<"This is play big game";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PassPhysics151::main_play()
+bool PlayBigGame::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 3)
+        return true;
+    else
+        return false;
+}
+
+void PlayBigGame::punishment()
+{
+
+}
+
+void PassPhysics151::main_play(int player)
 {
     qDebug()<<"This is pass physics";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PassKin253::main_play()
+bool PassPhysics151::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    if(location == 17 && craft >= 3)
+        return true;
+    else
+        return false;
+}
+
+void PassPhysics151::punishment()
+{
+
+}
+
+void PassKin253::main_play(int player)
 {
     qDebug()<<"This is passkin";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void LearnNetbeans::main_play()
+bool PassKin253::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    if(location == 0 &&  craft >= 2)
+        return true;
+    else
+        return false;
+}
+
+void PassKin253::punishment()
+{
+
+}
+
+void LearnNetbeans::main_play(int player)
 {
     qDebug()<<"This is net beans";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void ChooseMajor::main_play()
+bool LearnNetbeans::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 20)
+        return true;
+    else
+        return false;
+}
+
+void LearnNetbeans::punishment()
+{
+
+}
+
+void ChooseMajor::main_play(int player)
 {
     qDebug()<<"This is choose major";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void ScoreGoal::main_play()
+bool ChooseMajor::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int integrity = integrity_chips[player];
+    if(location == 19 && integrity >= 3)
+        return true;
+    else
+        return false;
+}
+
+void ChooseMajor::punishment()
+{
+
+}
+
+void ScoreGoal::main_play(int player)
 {
     qDebug()<<"This is score goal";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void MakeDeansList::main_play()
+bool ScoreGoal::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    if(location == 0 && craft >= 3)
+        return true;
+    else
+        return false;
+}
+
+void ScoreGoal::punishment()
+{
+
+}
+
+void MakeDeansList::main_play(int player)
 {
     qDebug()<<"This is make dean list";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PassSoccerClass::main_play()
+bool MakeDeansList::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if((location == 12 || location == 15) && learning >= 6)
+        return true;
+    else
+        return false;
+}
+
+void MakeDeansList::punishment()
+{
+
+}
+
+void PassSoccerClass::main_play(int player)
 {
     qDebug()<<"This is pass soccer class";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void FallInPond::main_play()
+bool PassSoccerClass::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    if(location == 0 && craft >= 5)
+        return true;
+    else
+        return false;
+}
+
+void PassSoccerClass::punishment()
+{
+
+}
+
+void FallInPond::main_play(int player)
 {
     qDebug()<<"This is fallinpond";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void UseNewLaptop::main_play()
+bool FallInPond::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if(location == 1 && learning >= 3)
+        return true;
+    else
+        return false;
+}
+
+void FallInPond::punishment()
+{
+
+}
+
+void UseNewLaptop::main_play(int player)
 {
     qDebug()<<"This is new laptop";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void MeetDean::main_play()
+bool UseNewLaptop::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int integrity = integrity_chips[player];
+    if(location == 11 && integrity >=4 )
+        return true;
+    else
+        return false;
+}
+
+void UseNewLaptop::punishment()
+{
+
+}
+
+void MeetDean::main_play(int player)
 {
     qDebug()<<"This is meet dean";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void CrashProgram::main_play()
+bool MeetDean::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    int craft = craft_chips[player];
+    int integrity = integrity_chips[player];
+    if((location == 12 || location == 15) && learning >= 3 && craft >= 3 &&
+            integrity >= 3)
+        return true;
+    else
+        return false;
+}
+
+void MeetDean::punishment()
+{
+
+}
+
+void CrashProgram::main_play(int player)
 {
     qDebug()<<"This is crash program";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PressFloorButton::main_play()
+bool CrashProgram::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if(location == 20 && learning >= 2)
+        return true;
+    else
+        return false;
+}
+
+void CrashProgram::punishment()
+{
+
+}
+
+void PressFloorButton::main_play(int player)
 {
     qDebug()<<"This is press floor button";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void MakeAlarmBuzz::main_play()
+bool PressFloorButton::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if(location == 16 && learning >= 4)
+        return true;
+    else
+        return false;
+}
+
+void PressFloorButton::punishment()
+{
+
+}
+
+void MakeAlarmBuzz::main_play(int player)
 {
     qDebug()<<"This is make alarm buzz";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void MeetProfessorEnglert::main_play()
+bool MakeAlarmBuzz::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    if(location == 18 && craft >= 3)
+        return true;
+    else
+        return false;
+}
+
+void MakeAlarmBuzz::punishment()
+{
+
+}
+
+void MeetProfessorEnglert::main_play(int player)
 {
     qDebug()<<"This is englert";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void BeSoccerGoalie::main_play()
+bool MeetProfessorEnglert::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int integrity = integrity_chips[player];
+    if((location == 14 || location == 17) && integrity >= 3)
+        return true;
+    else
+        return false;
+}
+
+void MeetProfessorEnglert::punishment()
+{
+
+}
+
+void BeSoccerGoalie::main_play(int player)
 {
     qDebug()<<"This is goalie";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void TakeEffectiveClass::main_play()
+bool BeSoccerGoalie::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    int craft = craft_chips[player];
+    if(location == 0 && learning >= 3 && craft >= 3)
+        return true;
+    else
+        return false;
+}
+
+void BeSoccerGoalie::punishment()
+{
+
+}
+
+void TakeElectiveClass::main_play(int player)
 {
     qDebug()<<"This is effective class";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void MeetProfessorHoffman::main_play()
+bool TakeElectiveClass::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if(location == 7 && learning >= 2)
+        return true;
+    else
+        return false;
+}
+
+void TakeElectiveClass::punishment()
+{
+
+}
+
+void MeetProfessorHoffman::main_play(int player)
 {
     qDebug()<<"This is hoffman";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void GoToOutpost::main_play()
+bool MeetProfessorHoffman::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int learning = learning_chips[player];
+    if((location == 11 || location == 14 || location == 18 || location == 19 ||
+        location == 12 || location == 15 || location == 13 || location == 16 ||
+        location  == 17) && learning >= 3)
+        return true;
+    else
+        return false;
+}
+
+void MeetProfessorHoffman::punishment()
+{
+
+}
+
+void GoToOutpost::main_play(int player)
 {
     qDebug()<<"This is outpost";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void AttendOralCommunication::main_play()
+bool GoToOutpost::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location != 11 && location != 14 && location != 18 && location != 19 &&
+       location != 12 && location != 15 && location != 13 && location != 16 &&
+       location != 17 && location != 20 && location != 6)
+        return true;
+    else
+        return false;
+}
+
+void AttendOralCommunication::main_play(int player)
 {
     qDebug()<<"This is oral communication";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void PassChemsitry111::main_play()
+bool AttendOralCommunication::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int integrity = integrity_chips[player];
+    if(location != 11 && location != 14 && location != 18 && location != 19 &&
+       location != 12 && location != 15 && location != 13 && location != 16 &&
+       location != 17 && location != 20 && integrity >= 4)
+        return true;
+    else
+        return false;
+}
+
+void AttendOralCommunication::punishment()
+{
+
+}
+
+void PassChemsitry111::main_play(int player)
 {
     qDebug()<<"This is pass chemistry";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void LearnLinux::main_play()
+bool PassChemsitry111::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    if(location != 11 && location != 14 && location != 18 && location != 19 &&
+       location != 12 && location != 15 && location != 13 && location != 16 &&
+       location != 17 && location != 20 && craft >= 6)
+        return true;
+    else
+        return false;
+}
+
+void PassChemsitry111::punishment()
+{
+
+}
+
+void LearnLinux::main_play(int player)
 {
     qDebug()<<"This is learn linux";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void MakeFriend::main_play()
+bool LearnLinux::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int craft = craft_chips[player];
+    int integrity = integrity_chips[player];
+    if(location == 11 && integrity >= 3 && craft >= 2 )
+        return true;
+    else
+        return false;
+}
+
+void LearnLinux::punishment()
+{
+
+}
+
+void MakeFriend::main_play(int player)
 {
     qDebug()<<"This is make friend";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void EnjoyNature::main_play()
+bool MakeFriend::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    int integrity = integrity_chips[player];
+    if((location == 12 || location == 15) && integrity >= 2)
+        return true;
+    else
+        return false;
+}
+
+void MakeFriend::punishment()
+{
+
+}
+
+void EnjoyNature::main_play(int player)
 {
     qDebug()<<"This is enjoy nature";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
 }
 
-void ParkInStudentParking::main_play()
+bool EnjoyNature::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location != 11 && location != 14 && location != 18 && location != 19 &&
+       location != 12 && location != 15 && location != 13 && location != 16 &&
+       location != 17 && location != 20)
+        return true;
+    else
+        return false;
+}
+
+void ParkInStudentParking::main_play(int player)
 {
     qDebug()<<"This is parking in student parking";
+    if(pre_requisite_satified(player))
+        qDebug()<<"Success";
+    else
+        qDebug()<<"fail";
+}
+
+bool ParkInStudentParking::pre_requisite_satified(int player)
+{
+    int location = MainWindow::current_postions[player];
+    if(location == 2)
+        return true;
+    else
+        return false;
 }
