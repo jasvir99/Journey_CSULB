@@ -395,6 +395,8 @@ void MainWindow::on_start_clicked()
     ui->move->setEnabled(false);
     ui->play_card->setEnabled(false);
     setup_tables();
+    GamePlay game;
+    game.initialize_map_with_objects();
 }
 
 int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)

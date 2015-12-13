@@ -31,6 +31,8 @@ int GamePlay::learning_chips[3] = {};
 int GamePlay::integrity_chips[3] = {};
 int GamePlay::quality_points[3] = {};
 
+std::map<int, GamePlay*> GamePlay::play;
+
 QList<int> empty_list()
 {
     //special function to initialize empty qlist
@@ -43,11 +45,11 @@ QList<int> GamePlay::complete_card_deck = empty_list();
 
 GamePlay::GamePlay()
 {
+    play[0] = new Cecs100();
     for(int i = 0; i < 51; i++)
     {
         complete_card_deck.insert(i,i+1);
     }
-    initialize_map_with_objects();
 }
 
 bool GamePlay::already_have_card(int card_list_array[], int card_id,
@@ -94,8 +96,7 @@ void GamePlay::randomize_deck()
 
 void GamePlay::initialize_map_with_objects()
 {
-    std::map<int, GamePlay*> play;
-    play.insert(std::make_pair(1, new GamePlay()));
+   // play.insert(std::make_pair(1, new Maths122()));
 }
 
 void GamePlay::main_play()

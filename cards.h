@@ -45,6 +45,8 @@ public:
      static int quality_points[3];
      static int integrity_chips[3];
      void initialize_map_with_objects();
+     typedef std::map<int, GamePlay*> card_class_map;
+     static card_class_map play;
 
     //public content
 
