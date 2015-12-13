@@ -21,6 +21,7 @@
 #define CARDS
 
 #include <QMainWindow>
+#include "mainwindow.h"
 
 namespace card_list {
     class GamePlay;
@@ -32,8 +33,18 @@ class GamePlay: public QMainWindow
 
 public:
      static int total_points[3];
-     static int cards_in_hand[5];
+     static QList<int> cards_in_hand;
      static int top_card_in_hand;
+     static QList<int> complete_card_deck;
+     bool already_have_card(int card_list_array[], int card_id, int array_size);
+     explicit GamePlay();
+     void randomize_deck();
+     int gen_rand_number(int max);
+     void main_play();
+     static int learning_chips[3];
+     static int craft_chips[3];
+     static int quality_points[3];
+     static int integrity_chips[3];
 
     //public content
 

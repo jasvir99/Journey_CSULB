@@ -20,7 +20,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "data.h"
-#include "cards.h"
 #include <iterator>
 #include <algorithm>
 
@@ -33,7 +32,7 @@ QWidget* MainWindow::ai_player2 = 0;
 int MainWindow::init_x_value = 1000;
 int MainWindow::init_y_value = 1560;
 int MainWindow::player_index = 0;
-
+int MainWindow::human_player_turns = 1;
 int MainWindow::pos_ai_player[2] = {17,17};
 
 //Done with initialization of static data members
@@ -66,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     //is clicked
     ui->room_list->hide();
     ui->move->hide();
+    ui->play_card->hide();
+    ui->draw_card->hide();
 }
 
 MainWindow::~MainWindow()
@@ -100,6 +101,26 @@ void MainWindow::prepare_board()
     players.append(ui->player3);
     int a = this->gen_rand_number(3);
     main_player = players[a];
+    if(a == 0)
+    {
+        main_player_name = ui->player1->text();
+        ai_player1_name = ui->player2->text();
+        ai_player2_name = ui->player3->text();
+    }
+
+    else if(a == 1)
+    {
+        main_player_name = ui->player2->text();
+        ai_player1_name = ui->player1->text();
+        ai_player2_name = ui->player3->text();
+    }
+
+    else
+    {
+        main_player_name = ui->player3->text();
+        ai_player1_name = ui->player1->text();
+        ai_player2_name = ui->player2->text();
+    }
     main_player->setStyleSheet("color: red;");
     players.removeAt(a);
     ai_player1 = players[0];
@@ -108,6 +129,149 @@ void MainWindow::prepare_board()
     ai_player2->setStyleSheet("color: orange");
     set_cards_in_hand();
     set_icon_as_card();
+}
+
+void MainWindow::setup_tables()
+{
+    QFont bold_font;
+    bold_font.setBold(true);
+    bold_font.setPointSize(10);
+
+    ui->ip->setColumnCount(6);
+    ui->ip->setRowCount(4);
+    ui->ip->verticalHeader()->setVisible(false);
+    ui->ip->horizontalHeader()->setVisible(false);
+    ui->add_info->verticalHeader()->setVisible(false);
+    ui->add_info->horizontalHeader()->setVisible(false);
+    ui->add_info->setColumnCount(2);
+    ui->add_info->setRowCount(5);
+
+    QTableWidgetItem *item = ui->ip->item(0,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(0,0, item);
+    }
+    item->setText("Player");
+    item->setFont(bold_font);
+
+    item = ui->ip->item(0,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(0,1, item);
+    }
+    item->setText("Quality Points");
+    item->setFont(bold_font);
+
+    item = ui->ip->item(0,2);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(0,2, item);
+    }
+    item->setText("Learning Chips");
+    item->setFont(bold_font);
+
+    item = ui->ip->item(0,3);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(0,3, item);
+    }
+    item->setText("Craft Chips");
+    item->setFont(bold_font);
+
+    item = ui->ip->item(0,4);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(0,4, item);
+    }
+    item->setText("Integrity Chips");
+    item->setFont(bold_font);
+
+    item = ui->ip->item(0,5);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(0,5, item);
+    }
+    item->setText("Learning Chips");
+    item->setFont(bold_font);
+
+    item = ui->ip->item(1,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(1,0, item);
+    }
+    item->setText(main_player_name + "*");
+
+    item = ui->ip->item(2,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(2,0, item);
+    }
+    item->setText(ai_player1_name);
+
+    item = ui->ip->item(3,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(3,0, item);
+    }
+    item->setText(ai_player2_name);
+
+    item = ui->add_info->item(0,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(0,0, item);
+    }
+    item->setText("Current Player");
+    item->setFont(bold_font);
+
+    item = ui->add_info->item(1,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(1,0, item);
+    }
+    item->setText("Current Room");
+    item->setFont(bold_font);
+
+    item = ui->add_info->item(2,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(2,0, item);
+    }
+    item->setText("Cards in deck");
+    item->setFont(bold_font);
+
+    item = ui->add_info->item(3,0);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(3,0, item);
+    }
+    item->setText("Discard cards");
+    item->setFont(bold_font);
 }
 
 void MainWindow::relocate(int place_id, QWidget *player, int y_offset)
@@ -144,24 +308,39 @@ void MainWindow::on_move_clicked()
     QListWidgetItem* current_room = ui->room_list->currentItem();
     int user_data = current_room->data(Qt::UserRole).toInt();
 
-    //relocate main_player as per selected room
-    this->relocate(user_data,main_player,0);
+    qDebug()<<human_player_turns;
+    if(human_player_turns < 3)
+    {
+        human_player_turns = human_player_turns + 1;
+        //relocate main_player as per selected room
+        this->relocate(user_data,main_player,0);
+        ui->moves->addItem("Main player moved to " + QString::number(user_data));
+    }
 
-    //ui->move_main_player->setText("Main player moved to " + \
-      //                            QString::number(user_data));
+    else if(human_player_turns = 3)
+    {
+        human_player_turns = human_player_turns + 1;
+        //relocate main_player as per selected room
+        this->relocate(user_data,main_player,0);
+        ui->moves->addItem("Main player moved to " + QString::number(user_data));
 
-    //move ai player to random available room
-    int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
+        ui->move->setEnabled(false);
+    }
+    else
+    {
+        //move ai player to random available room
+        int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
 
-    //ui->move_ai_1->setText("First AI player moved to " + \
-      //                     QString::number(pos_ai_1));
+        //ui->move_ai_1->setText("First AI player moved to " + \
+          //                     QString::number(pos_ai_1));
 
-    int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
+        int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
 
-    //ui->move_ai_2->setText("Second AI player moved to " + \
-      //                     QString::number(pos_ai_2));
+        //ui->move_ai_2->setText("Second AI player moved to " + \
+          //                     QString::number(pos_ai_2));
 
-    //render the list of rooms
+        //render the list of rooms
+    }
     this->render_room_list(user_data);
 }
 
@@ -211,6 +390,11 @@ void MainWindow::on_start_clicked()
     ui->start->hide();
     ui->room_list->show();
     ui->move->show();
+    ui->draw_card->show();
+    ui->play_card->show();
+    ui->move->setEnabled(false);
+    ui->play_card->setEnabled(false);
+    setup_tables();
 }
 
 int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
@@ -250,63 +434,81 @@ int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
 
 void MainWindow::set_cards_in_hand()
 {
+    GamePlay game_play;
+    game_play.randomize_deck();
     for(int i=1; i<=5; i++)
     {
         qDebug()<<i;
         int not_in_hand = 1;
         int card_id = MainWindow::gen_rand_number(51);
-        qDebug()<<"card"<<" "<<card_id;
+        int card = GamePlay::complete_card_deck.value(card_id);
         do
         {
-
-
-            for (int j=1;j<=5;j++)
+            if(!GamePlay::cards_in_hand.contains(card))
             {
-                qDebug()<<j;
-                if(GamePlay::cards_in_hand[j] == card_id)
+                if(card != 0)
                 {
-                    qDebug()<<"matched";
-                    continue;
-                }
-                else
-                {
-                    qDebug()<<"not matched";
+                    GamePlay::cards_in_hand.insert(i-1, card);
                     not_in_hand = 0;
-                    GamePlay::cards_in_hand[i] = card_id;
-                    break;
-
+                    qDebug()<<"position:"<<i<<" value:"<<card;
+                    qDebug()<<"card"<<" "<<card;
                 }
             }
 
         }
         while(not_in_hand != 0);
     }
-
-    qDebug()<<GamePlay::cards_in_hand[1];
+    qDebug()<<"Final Size:"<<GamePlay::cards_in_hand.size();
+    for(int i = 0; i < GamePlay::cards_in_hand.size(); i++)
+    {
+        qDebug()<<"final:"<<GamePlay::cards_in_hand.value(i);
+    }
 
 }
 
 void MainWindow::set_icon_as_card()
 {
-    QString top_deck_card = QString::number(GamePlay::cards_in_hand[
-                                            GamePlay::top_card_in_hand
-            ]);
+    QString top_deck_card = QString::number(GamePlay::cards_in_hand.value(
+                                                GamePlay::top_card_in_hand
+                                                ) + 1);
     QString card_name = ":/images/resources/" + top_deck_card + ".png";
     QPixmap* top_card = new QPixmap(card_name);
     qDebug()<<card_name;
     QIcon ButtonIcon(*top_card);
     ui->card_holder->setIcon(QIcon());
     ui->card_holder->setIcon(ButtonIcon);
-    ui->card_holder->setIconSize(top_card->rect().size());
+    ui->card_holder->setIconSize(top_card->rect().size()/1.8);
 }
+
 void MainWindow::on_card_holder_clicked()
 {
     GamePlay::top_card_in_hand = GamePlay::top_card_in_hand + 1;
-    if(GamePlay::top_card_in_hand > 5)
+    if(GamePlay::top_card_in_hand >= GamePlay::cards_in_hand.size() ||
+            GamePlay::top_card_in_hand < 0)
     {
-        GamePlay::top_card_in_hand = 1;
+        GamePlay::top_card_in_hand = 0;
         set_icon_as_card();
     }
     else
         set_icon_as_card();
+}
+
+void MainWindow::on_draw_card_clicked()
+{
+    int already_in_hand = 1;
+    do
+    {
+        int top_of_deck = GamePlay::complete_card_deck.value(0);
+        if(!GamePlay::cards_in_hand.contains(top_of_deck))
+        {
+             GamePlay::complete_card_deck.removeFirst();
+             GamePlay::cards_in_hand.insert(0,top_of_deck);
+             GamePlay::top_card_in_hand = 0;
+             set_icon_as_card();
+             ui->draw_card->setEnabled(false);
+             ui->play_card->setEnabled(true);
+             ui->move->setEnabled(true);
+             already_in_hand = 0;
+        }
+    }while(already_in_hand != 0);
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>498</width>
-    <height>388</height>
+    <width>748</width>
+    <height>469</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -21,6 +21,9 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QScrollArea" name="scrollArea">
       <property name="minimumSize">
@@ -37,13 +40,31 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>478</width>
-         <height>212</height>
+         <width>728</width>
+         <height>299</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+        </property>
+        <property name="horizontalSpacing">
+         <number>1</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>1</number>
+        </property>
+        <property name="leftMargin">
+         <number>1</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
+        <property name="rightMargin">
+         <number>1</number>
+        </property>
+        <property name="bottomMargin">
+         <number>1</number>
         </property>
         <item row="0" column="0">
          <widget class="QLabel" name="mainImage">
@@ -155,100 +176,188 @@
       <widget class="QWidget" name="scrollAreaWidgetContents_2">
        <property name="geometry">
         <rect>
-         <x>-66</x>
+         <x>0</x>
          <y>0</y>
-         <width>544</width>
-         <height>135</height>
+         <width>728</width>
+         <height>148</height>
         </rect>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QListWidget" name="room_list">
+       <widget class="QListWidget" name="room_list">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>200</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="start">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>30</y>
+          <width>100</width>
+          <height>100</height>
+         </rect>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Start</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="move">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>10</y>
+          <width>85</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Move</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="draw_card">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>70</y>
+          <width>91</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Draw Card</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="play_card">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>120</y>
+          <width>85</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Play Card</string>
+        </property>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea_3">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>0</y>
+          <width>1000</width>
+          <height>408</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>1000</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents_3">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>998</width>
+           <height>406</height>
+          </rect>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <widget class="QTableWidget" name="add_info">
+          <property name="geometry">
+           <rect>
+            <x>777</x>
+            <y>0</y>
+            <width>220</width>
+            <height>139</height>
+           </rect>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>200</width>
+            <width>220</width>
             <height>16777215</height>
            </size>
           </property>
          </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="start">
+         <widget class="QPushButton" name="card_holder">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>-10</y>
+            <width>141</width>
+            <height>171</height>
+           </rect>
+          </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>16777215</width>
             <height>16777215</height>
            </size>
           </property>
           <property name="text">
-           <string>Start</string>
+           <string/>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="move">
-          <property name="enabled">
+          <property name="flat">
            <bool>true</bool>
           </property>
-          <property name="text">
-           <string>Move</string>
+         </widget>
+         <widget class="QTableWidget" name="ip">
+          <property name="geometry">
+           <rect>
+            <x>135</x>
+            <y>0</y>
+            <width>641</width>
+            <height>91</height>
+           </rect>
           </property>
          </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="draw_card">
-          <property name="text">
-           <string>Draw Card</string>
+         <widget class="QListWidget" name="moves">
+          <property name="geometry">
+           <rect>
+            <x>140</x>
+            <y>100</y>
+            <width>631</width>
+            <height>41</height>
+           </rect>
           </property>
          </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="play_card">
-          <property name="text">
-           <string>Play Card</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="scrollArea_3">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_3">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>165</width>
-             <height>102</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QPushButton" name="card_holder">
-              <property name="text">
-               <string/>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="cards">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QListWidget" name="listWidget_2"/>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-       </layout>
+        </widget>
+       </widget>
       </widget>
      </widget>
     </item>

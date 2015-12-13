@@ -23,6 +23,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include "QtGui"
+#include "cards.h"
 
 namespace Ui {
     class MainWindow;
@@ -37,11 +38,16 @@ public:
     static QWidget* main_player;
     static QWidget* ai_player1;
     static QWidget* ai_player2;
+    QString main_player_name;
+    QString ai_player1_name;
+    QString ai_player2_name;
     static int init_x_value;
     static int init_y_value;
     static int pos_ai_player[2];
     static int player_index;
+    static int human_player_turns;
     explicit MainWindow(QWidget *parent = 0);
+    int gen_rand_number(int max);
     ~MainWindow();
     QString name;
 
@@ -51,17 +57,19 @@ private slots:
 
     void on_card_holder_clicked();
 
+    void on_draw_card_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage  *imageObject;
     QGraphicsScene *scene;
     void relocate(int place_id, QWidget *player, int y_offset);
     void prepare_board();
-    int gen_rand_number(int max);
     void render_room_list(int place_id);
     int move_ai_player(QWidget *player, int current_pos, int y_offset);
     void set_cards_in_hand();
     void set_icon_as_card();
+    void setup_tables();
 };
 
 #endif // MAINWINDOW_H
