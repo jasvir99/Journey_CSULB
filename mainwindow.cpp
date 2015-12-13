@@ -512,3 +512,8 @@ void MainWindow::on_draw_card_clicked()
         }
     }while(already_in_hand != 0);
 }
+
+void MainWindow::on_play_card_clicked()
+{
+
+}

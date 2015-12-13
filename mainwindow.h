@@ -59,6 +59,8 @@ private slots:
 
     void on_draw_card_clicked();
 
+    void on_play_card_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage  *imageObject;

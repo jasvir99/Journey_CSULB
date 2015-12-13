@@ -18,6 +18,8 @@
 
 #include "cards.h"
 #include "QDebug"
+#include <map>
+#include <utility>
 
 //Initializing static data members
 
@@ -45,11 +47,7 @@ GamePlay::GamePlay()
     {
         complete_card_deck.insert(i,i+1);
     }
-}
-
-void GamePlay::main_play()
-{
-
+    initialize_map_with_objects();
 }
 
 bool GamePlay::already_have_card(int card_list_array[], int card_id,
@@ -92,4 +90,210 @@ void GamePlay::randomize_deck()
         complete_card_deck[i] = complete_card_deck[pos];
         complete_card_deck[pos] = temp;
     }
+}
+
+void GamePlay::initialize_map_with_objects()
+{
+    std::map<int, GamePlay*> play;
+    play.insert(std::make_pair(1, new GamePlay()));
+}
+
+void GamePlay::main_play()
+{
+    qDebug()<<"This is base main_play";
+}
+
+void Cecs105::main_play()
+{
+    qDebug()<<"This is cecs105";
+}
+
+void Maths122::main_play()
+{
+    qDebug()<<"This is maths122";
+}
+
+void LunchAtBrawtrustHall::main_play()
+{
+    qDebug()<<"This is lunch";
+}
+
+void ResearchOnCompilers::main_play()
+{
+    qDebug()<<"This is research";
+}
+
+void Cecs174::main_play()
+{
+    qDebug()<<"This is cecs174";
+}
+
+void Cecs100::main_play()
+{
+    qDebug()<<"This is cecs100";
+}
+
+void ExerciseInRecreation::main_play()
+{
+    qDebug()<<"This is exercise";
+}
+
+void FindLabUsingElevators::main_play()
+{
+    qDebug()<<"This is findlab";
+}
+
+void EnjoyPeace::main_play()
+{
+    qDebug()<<"This is peace";
+}
+
+void ParkingViolation::main_play()
+{
+    qDebug()<<"This is Parking";
+}
+
+void JoiningEatOrSoccer::main_play()
+{
+    qDebug()<<"This is eatorsoccer";
+}
+
+void GetLateForClass::main_play()
+{
+    qDebug()<<"This is late for class";
+}
+
+void SayGoodByeToProfessor::main_play()
+{
+    qDebug()<<"This is good to professor";
+}
+
+void PassMath123::main_play()
+{
+    qDebug()<<"This is pass math 123";
+}
+
+void PlayBigGame::main_play()
+{
+    qDebug()<<"This is play big game";
+}
+
+void PassPhysics151::main_play()
+{
+    qDebug()<<"This is pass physics";
+}
+
+void PassKin253::main_play()
+{
+    qDebug()<<"This is passkin";
+}
+
+void LearnNetbeans::main_play()
+{
+    qDebug()<<"This is net beans";
+}
+
+void ChooseMajor::main_play()
+{
+    qDebug()<<"This is choose major";
+}
+
+void ScoreGoal::main_play()
+{
+    qDebug()<<"This is score goal";
+}
+
+void MakeDeansList::main_play()
+{
+    qDebug()<<"This is make dean list";
+}
+
+void PassSoccerClass::main_play()
+{
+    qDebug()<<"This is pass soccer class";
+}
+
+void FallInPond::main_play()
+{
+    qDebug()<<"This is fallinpond";
+}
+
+void UseNewLaptop::main_play()
+{
+    qDebug()<<"This is new laptop";
+}
+
+void MeetDean::main_play()
+{
+    qDebug()<<"This is meet dean";
+}
+
+void CrashProgram::main_play()
+{
+    qDebug()<<"This is crash program";
+}
+
+void PressFloorButton::main_play()
+{
+    qDebug()<<"This is press floor button";
+}
+
+void MakeAlarmBuzz::main_play()
+{
+    qDebug()<<"This is make alarm buzz";
+}
+
+void MeetProfessorEnglert::main_play()
+{
+    qDebug()<<"This is englert";
+}
+
+void BeSoccerGoalie::main_play()
+{
+    qDebug()<<"This is goalie";
+}
+
+void TakeEffectiveClass::main_play()
+{
+    qDebug()<<"This is effective class";
+}
+
+void MeetProfessorHoffman::main_play()
+{
+    qDebug()<<"This is hoffman";
+}
+
+void GoToOutpost::main_play()
+{
+    qDebug()<<"This is outpost";
+}
+
+void AttendOralCommunication::main_play()
+{
+    qDebug()<<"This is oral communication";
+}
+
+void PassChemsitry111::main_play()
+{
+    qDebug()<<"This is pass chemistry";
+}
+
+void LearnLinux::main_play()
+{
+    qDebug()<<"This is learn linux";
+}
+
+void MakeFriend::main_play()
+{
+    qDebug()<<"This is make friend";
+}
+
+void EnjoyNature::main_play()
+{
+    qDebug()<<"This is enjoy nature";
+}
+
+void ParkInStudentParking::main_play()
+{
+    qDebug()<<"This is parking in student parking";
 }
