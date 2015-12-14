@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChipBox</class>
+ <widget class="QDialog" name="ChipBox">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>370</width>
+    <height>155</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="integrity_chip">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>111</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Integrity Chip</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="learning_chip">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>40</y>
+     <width>111</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Learning Chip</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="craft_chip">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>40</y>
+     <width>111</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Craft Chip</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>10</y>
+     <width>171</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Select any skill chip</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

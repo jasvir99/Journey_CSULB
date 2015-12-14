@@ -18,8 +18,10 @@
 
 #include "cards.h"
 #include "QDebug"
+#include "chipbox.h"
 #include <map>
 #include <utility>
+
 
 //Initializing static data members
 
@@ -46,6 +48,7 @@ QList<int> GamePlay::cards_in_hand = empty_list();
 QList<int> GamePlay::complete_card_deck = empty_list();
 QList<int> GamePlay::ai1_hand = empty_list();
 QList<int> GamePlay::ai2_hand = empty_list();
+QList<int> GamePlay::discarded_card_deck = empty_list();
 
 GamePlay::GamePlay()
 {
@@ -61,11 +64,14 @@ GamePlay::GamePlay()
         integrity_chips[i] = 0;
         quality_points[i] = 0;
     }
+
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.second());
 }
 
 Cards::Cards()
 {
-     play[0] = new Cecs100();
+     play[0] = new Cecs105();
 }
 
 bool GamePlay::already_have_card(int card_list_array[], int card_id,
@@ -96,8 +102,6 @@ int GamePlay::gen_rand_number(int max)
 
 int GamePlay::randomize_deck()
 {
-    qDebug()<<"here5";
-
     int deck_size = complete_card_deck.size();
     if(deck_size == 0)
     {
@@ -110,10 +114,8 @@ int GamePlay::randomize_deck()
         complete_card_deck[i] = complete_card_deck[pos];
         complete_card_deck[pos] = temp;
     }
-    qDebug()<<"here6";
 
     return 0;
-
 }
 
 void Cards::initialize_map_with_objects()
@@ -125,37 +127,38 @@ void Cards::initialize_map_with_objects()
     play.insert(std::make_pair(5, new Cecs100()));
     play.insert(std::make_pair(6, new ExerciseInRecreation()));
     play.insert(std::make_pair(7, new FindLabUsingElevators));
-    play.insert(std::make_pair(9, new EnjoyPeace));
-    play.insert(std::make_pair(10, new ParkingViolation));
-    play.insert(std::make_pair(11, new SayGoodByeToProfessor));
-    play.insert(std::make_pair(12, new JoiningEatOrSoccer));
-    play.insert(std::make_pair(13, new GetLateForClass));
-    play.insert(std::make_pair(14, new PlayBigGame));
-    //play.insert(std::make_pair(15, new Maths123()));
-    play.insert(std::make_pair(16, new PassPhysics151()));
-    play.insert(std::make_pair(17, new PassKin253()));
-    play.insert(std::make_pair(18, new LearnNetbeans()));
-    play.insert(std::make_pair(19, new ChooseMajor()));
-    play.insert(std::make_pair(20, new ScoreGoal()));
-    play.insert(std::make_pair(21, new MakeDeansList()));
-    play.insert(std::make_pair(22, new PassSoccerClass()));
-    play.insert(std::make_pair(23, new FallInPond()));
-    play.insert(std::make_pair(24, new UseNewLaptop()));
-    play.insert(std::make_pair(25, new MeetDean()));
-    play.insert(std::make_pair(26, new CrashProgram()));
-    play.insert(std::make_pair(27, new PressFloorButton()));
-    play.insert(std::make_pair(28, new MakeAlarmBuzz()));
-    play.insert(std::make_pair(29, new MeetProfessorEnglert()));
-    play.insert(std::make_pair(30, new BeSoccerGoalie()));
-    play.insert(std::make_pair(31, new TakeElectiveClass()));
-    play.insert(std::make_pair(32, new MeetProfessorHoffman()));
-    play.insert(std::make_pair(33, new GoToOutpost()));
-    play.insert(std::make_pair(34, new AttendOralCommunication()));
-    play.insert(std::make_pair(35, new PassChemsitry111()));
-    play.insert(std::make_pair(36, new LearnLinux()));
-    play.insert(std::make_pair(37, new MakeFriend()));
-    play.insert(std::make_pair(38, new EnjoyNature()));
-    play.insert(std::make_pair(39, new ParkInStudentParking));
+    play.insert(std::make_pair(8, new EnjoyPeace));
+    play.insert(std::make_pair(9, new ParkingViolation));
+    play.insert(std::make_pair(10, new SayGoodByeToProfessor));
+    play.insert(std::make_pair(11, new JoiningEatOrSoccer));
+    play.insert(std::make_pair(12, new GetLateForClass));
+    play.insert(std::make_pair(13, new PlayBigGame));
+    //play.insert(std::make_pair(14, new Maths123()));
+    play.insert(std::make_pair(15, new PassPhysics151()));
+    play.insert(std::make_pair(16, new PassKin253()));
+    play.insert(std::make_pair(17, new LearnNetbeans()));
+    play.insert(std::make_pair(18, new ChooseMajor()));
+    play.insert(std::make_pair(19, new ScoreGoal()));
+    play.insert(std::make_pair(20, new MakeDeansList()));
+    play.insert(std::make_pair(21, new PassSoccerClass()));
+    play.insert(std::make_pair(22, new FallInPond()));
+    play.insert(std::make_pair(23, new UseNewLaptop()));
+    play.insert(std::make_pair(24, new MeetDean()));
+    play.insert(std::make_pair(25, new CrashProgram()));
+    play.insert(std::make_pair(26, new PressFloorButton()));
+    play.insert(std::make_pair(27, new MakeAlarmBuzz()));
+    play.insert(std::make_pair(28, new MeetProfessorEnglert()));
+    play.insert(std::make_pair(29, new BeSoccerGoalie()));
+    play.insert(std::make_pair(30, new TakeElectiveClass()));
+    play.insert(std::make_pair(31, new MeetProfessorHoffman()));
+    play.insert(std::make_pair(32, new GoToOutpost()));
+    play.insert(std::make_pair(33, new AttendOralCommunication()));
+    play.insert(std::make_pair(34, new PassChemsitry111()));
+    play.insert(std::make_pair(35, new LearnLinux()));
+    play.insert(std::make_pair(36, new MakeFriend()));
+    play.insert(std::make_pair(37, new EnjoyNature()));
+    play.insert(std::make_pair(38, new ParkInStudentParking));
+    play.insert(std::make_pair(39, new EnjoyPeace));
     play.insert(std::make_pair(40, new EnjoyPeace));
     play.insert(std::make_pair(41, new EnjoyPeace));
     play.insert(std::make_pair(42, new EnjoyPeace));
@@ -167,12 +170,6 @@ void Cards::initialize_map_with_objects()
     play.insert(std::make_pair(48, new EnjoyPeace));
     play.insert(std::make_pair(49, new EnjoyPeace));
     play.insert(std::make_pair(50, new EnjoyPeace));
-    play.insert(std::make_pair(51, new EnjoyPeace));
-}
-
-void GamePlay::main_play(int player)
-{
-    qDebug()<<"This is base main_play";
 }
 
 void Cecs105::main_play(int player)
@@ -180,6 +177,7 @@ void Cecs105::main_play(int player)
     qDebug()<<"This is cecs105";
     if(pre_requisite_satified(player))
     {
+        qDebug()<<"Success";
         learning_chips[player] += 1;
     }
     else
@@ -200,8 +198,12 @@ void Maths122::main_play(int player)
     qDebug()<<"This is maths122";
     if(pre_requisite_satified(player))
     {
-        learning_chips[player] += 1;
-        integrity_chips[player] += 1;
+        qDebug()<<"Success";
+        if(player = MainWindow::main_player_id)
+        {
+            ChipBox::craft_enabled = false;
+            ChipBox chip;
+        }
     }
 
     else
@@ -221,7 +223,10 @@ void LunchAtBrawtrustHall::main_play(int player)
 {
     qDebug()<<"This is lunch";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 1;
+    }
     else
         qDebug()<<"fail";
 }
@@ -239,7 +244,10 @@ void ResearchOnCompilers::main_play(int player)
 {
     qDebug()<<"This is research";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        learning_chips[player] += 1;
+    }
     else
         qDebug()<<"fail";
 }
@@ -257,7 +265,10 @@ void Cecs174::main_play(int player)
 {
     qDebug()<<"This is cecs174";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        learning_chips[player] += 1;
+    }
     else
         qDebug()<<"fail";
 }
@@ -275,7 +286,10 @@ void Cecs100::main_play(int player)
 {
     qDebug()<<"This is cecs100";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 1;
+    }
     else
         qDebug()<<"fail";
 }
@@ -293,7 +307,10 @@ void ExerciseInRecreation::main_play(int player)
 {
     qDebug()<<"This is exercise";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        integrity_chips[player] += 1;
+    }
     else
         qDebug()<<"fail";
 }
@@ -311,7 +328,10 @@ void FindLabUsingElevators::main_play(int player)
 {
     qDebug()<<"This is findlab";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        integrity_chips[player] += 1;
+    }
     else
         qDebug()<<"fail";
 }
@@ -329,7 +349,14 @@ void EnjoyPeace::main_play(int player)
 {
     qDebug()<<"This is peace";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        if(player = MainWindow::main_player_id)
+        {
+            ChipBox::craft_enabled = false;
+            ChipBox chip;
+        }
+    }
     else
         qDebug()<<"fail";
 }
@@ -347,7 +374,10 @@ void ParkingViolation::main_play(int player)
 {
     qDebug()<<"This is Parking";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+
+    }
     else
         qDebug()<<"fail";
 }

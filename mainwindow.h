@@ -48,6 +48,7 @@ public:
     static int init_y_value;
     static int pos_ai_player[2];
     static int current_postions[3];
+    static int current_player_id;
     static int player_index;
     static int human_player_turns;
     static int ai_player1_turns;
@@ -76,7 +77,9 @@ private:
     void set_cards_in_hand();
     void set_icon_as_card();
     void setup_tables();
-    void ai_play(QWidget *player);
+    void ai_play(int player);
+    void ai_draw_card(int player);
 };
+
 
 #endif // MAINWINDOW_H

@@ -20,7 +20,6 @@
 #ifndef CARDS
 #define CARDS
 
-#include <QMainWindow>
 #include "mainwindow.h"
 
 namespace card_list {
@@ -35,6 +34,7 @@ public:
      static QList<int> cards_in_hand;
      static int top_card_in_hand;
      static QList<int> complete_card_deck;
+     static QList<int> discarded_card_deck;
      bool already_have_card(int card_list_array[], int card_id, int array_size);
      explicit GamePlay();
      int randomize_deck();
@@ -364,5 +364,7 @@ public:
     void main_play(int player);
     bool pre_requisite_satified(int player);
 };
+
+
 
 #endif // CARDS

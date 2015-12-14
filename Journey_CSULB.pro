@@ -17,13 +17,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     data.cpp \
-    cards.cpp
+    cards.cpp \
+    chipbox.cpp
 
 HEADERS  += mainwindow.h \
     data.h \
-    cards.h
+    cards.h \
+    chipbox.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    chipbox.ui
 
 RESOURCES += \
     resources.qrc

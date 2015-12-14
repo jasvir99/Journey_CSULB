@@ -22,6 +22,7 @@
 #include "data.h"
 #include <iterator>
 #include <algorithm>
+#include "chipbox.h"
 
 //Initializing static data members
 
@@ -31,6 +32,7 @@ QWidget* MainWindow::ai_player2 = 0;
 int MainWindow::main_player_id = 0;
 int MainWindow::ai_player1_id = 0;
 int MainWindow::ai_player2_id = 0;
+int MainWindow::current_player_id = MainWindow::main_player_id;
 
 int MainWindow::init_x_value = 1000;
 int MainWindow::init_y_value = 1560;
@@ -439,77 +441,42 @@ int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
 
 void MainWindow::set_cards_in_hand()
 {
-    qDebug()<<"here";
     GamePlay game_play;
     game_play.randomize_deck();
-    qDebug()<<"here2";
     for(int i=1; i<=5; i++)
     {
-        int not_in_hand = 1;
         int card_id = MainWindow::gen_rand_number(51);
         int card = GamePlay::complete_card_deck.value(card_id);
-        do
+        if(card != 0)
         {
-            if(!GamePlay::cards_in_hand.contains(card))
-            {
-                if(card != 0)
-                {
-                    GamePlay::cards_in_hand.insert(i-1, card);
-                    GamePlay::complete_card_deck.removeAt(card_id);
-                    not_in_hand = 0;
-                }
-            }
-
+            GamePlay::cards_in_hand.insert(i-1, card);
+            GamePlay::complete_card_deck.removeAt(card_id);
         }
-        while(not_in_hand != 0);
     }
-    qDebug()<<"here3";
 
     game_play.randomize_deck();
     for(int i=1; i<=5; i++)
     {
-        int not_in_hand = 1;
         int card_id = MainWindow::gen_rand_number(51);
         int card = GamePlay::complete_card_deck.value(card_id);
-        do
+        if(card != 0)
         {
-            if(!GamePlay::ai1_hand.contains(card))
-            {
-                if(card != 0)
-                {
-                    GamePlay::ai1_hand.insert(i-1, card);
-                    GamePlay::complete_card_deck.removeAt(card_id);
-                    not_in_hand = 0;
-                }
-            }
-
+            GamePlay::ai1_hand.insert(i-1, card);
+            GamePlay::complete_card_deck.removeAt(card_id);
         }
-        while(not_in_hand != 0);
     }
-    qDebug()<<"here4";
 
     game_play.randomize_deck();
     for(int i=1; i<=5; i++)
     {
-        int not_in_hand = 1;
         int card_id = MainWindow::gen_rand_number(51);
         int card = GamePlay::complete_card_deck.value(card_id);
-        do
+        if(card != 0)
         {
-            if(!GamePlay::ai2_hand.contains(card))
-            {
-                if(card != 0)
-                {
-                    GamePlay::ai2_hand.insert(i-1, card);
-                    GamePlay::complete_card_deck.removeAt(card_id);
-                    not_in_hand = 0;
-                }
-            }
-
+            GamePlay::ai2_hand.insert(i-1, card);
+            GamePlay::complete_card_deck.removeAt(card_id);
         }
-        while(not_in_hand != 0);
     }
-    qDebug()<<"here5";
 
     qDebug()<<"Final Size:"<<GamePlay::cards_in_hand.size();
     for(int i = 0; i < GamePlay::cards_in_hand.size(); i++)
@@ -551,22 +518,19 @@ void MainWindow::on_card_holder_clicked()
 
 void MainWindow::on_draw_card_clicked()
 {
-    int already_in_hand = 1;
-    do
+    GamePlay game;
+    game.randomize_deck();
+    int top_of_deck = GamePlay::complete_card_deck.value(0);
+    if(top_of_deck != 0)
     {
-        int top_of_deck = GamePlay::complete_card_deck.value(0);
-        if(!GamePlay::cards_in_hand.contains(top_of_deck))
-        {
-             GamePlay::complete_card_deck.removeFirst();
-             GamePlay::cards_in_hand.insert(0,top_of_deck);
-             GamePlay::top_card_in_hand = 0;
-             set_icon_as_card();
-             ui->draw_card->setEnabled(false);
-             ui->play_card->setEnabled(true);
-             ui->move->setEnabled(true);
-             already_in_hand = 0;
-        }
-    }while(already_in_hand != 0);
+         GamePlay::complete_card_deck.removeFirst();
+         GamePlay::cards_in_hand.insert(0,top_of_deck);
+         GamePlay::top_card_in_hand = 0;
+         set_icon_as_card();
+         ui->draw_card->setEnabled(false);
+         ui->play_card->setEnabled(true);
+         ui->move->setEnabled(true);
+    }
 }
 
 void MainWindow::on_play_card_clicked()
@@ -575,31 +539,98 @@ void MainWindow::on_play_card_clicked()
     qDebug()<<"top card:"<<top_card;
     qDebug()<<"current pos:"<<current_postions[main_player_id];
     Cards::play[top_card]->main_play(main_player_id);
+    GamePlay::discarded_card_deck.append(top_card);
+    GamePlay::cards_in_hand.removeAt(GamePlay::top_card_in_hand);
+    if(GamePlay::top_card_in_hand > 0)
+    {
+        GamePlay::top_card_in_hand = GamePlay::top_card_in_hand - 1;
+    }
+
+    else
+    {
+        GamePlay::top_card_in_hand = 0;
+    }
+    set_icon_as_card();
+
+    ui->play_card->setEnabled(false);
 
     do
     {
-    int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
-    ui->moves->addItem("First AI player moved to " + \
-                           QString::number(pos_ai_1));
-    current_postions[ai_player1_id] = pos_ai_1;
-    ai_player1_turns += 1;
+        current_player_id = ai_player1_id;
+        int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
+        ui->moves->addItem("First AI player moved to " + \
+                               QString::number(pos_ai_1));
+        current_postions[ai_player1_id] = pos_ai_1;
+        ai_player1_turns += 1;
     }while(ai_player1_turns <= 3);
 
+    ai_play(ai_player1_id);
+
     do
     {
-    int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
+        current_player_id = ai_player2_id;
+        int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
 
-    ui->moves->addItem("Second AI player moved to " + \
-                           QString::number(pos_ai_2));
-    current_postions[ai_player2_id] = pos_ai_2;
-    ai_player2_turns += 1;
+        ui->moves->addItem("Second AI player moved to " + \
+                               QString::number(pos_ai_2));
+        current_postions[ai_player2_id] = pos_ai_2;
+        ai_player2_turns += 1;
     }while(ai_player2_turns <= 3);
+    ai_play(ai_player2_id);
 
     //render the list of rooms
     human_player_turns = 1;
     ai_player1_turns = 1;
     ai_player2_turns = 1;
-    ui->move->setEnabled(true);
+    ui->draw_card->setEnabled(true);
 }
 
+void MainWindow::ai_draw_card(int player)
+{
+    GamePlay game;
+    if(player == ai_player1_id)
+    {
+        qDebug()<<"ai 1 draw";
+        game.randomize_deck();
+        int top_of_deck = GamePlay::complete_card_deck.value(0);
+        if(top_of_deck != 0)
+        {
+             GamePlay::complete_card_deck.removeFirst();
+             GamePlay::ai1_hand.insert(0,top_of_deck);
+        }
+    }
 
+    if(player == ai_player2_id)
+    {
+        qDebug()<<"ai 2 draw";
+        game.randomize_deck();
+        int top_of_deck = GamePlay::complete_card_deck.value(0);
+        if(top_of_deck != 0)
+        {
+             GamePlay::complete_card_deck.removeFirst();
+             GamePlay::ai2_hand.insert(0,top_of_deck);
+        }
+    }
+}
+
+void MainWindow::ai_play(int player)
+{
+    ai_draw_card(player);
+    if(player == ai_player1_id)
+    {
+        qDebug()<<"ai 1 play";
+        int play_card = gen_rand_number(GamePlay::ai1_hand.size()-1);
+        Cards::play[play_card]->main_play(player);
+        GamePlay::discarded_card_deck.append(play_card);
+        GamePlay::ai1_hand.removeAt(play_card);
+    }
+
+    if(player == ai_player2_id)
+    {
+        qDebug()<<"ai 2 play";
+        int play_card = gen_rand_number(GamePlay::ai2_hand.size()-1);
+        Cards::play[play_card]->main_play(player);
+        GamePlay::discarded_card_deck.append(play_card);
+        GamePlay::ai2_hand.removeAt(play_card);
+    }
+}
