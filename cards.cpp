@@ -172,21 +172,26 @@ void Cards::initialize_map_with_objects()
     play.insert(std::make_pair(50, new EnjoyPeace));
 }
 
-void GamePlay::main_play(int player)
+bool GamePlay::main_play(int player)
 {
     //defination of virtual function;
+    return true;
 }
 
-void Cecs105::main_play(int player)
+bool Cecs105::main_play(int player)
 {
     qDebug()<<"This is cecs105";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         learning_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool Cecs105::pre_requisite_satified(int player)
@@ -198,7 +203,7 @@ bool Cecs105::pre_requisite_satified(int player)
         return false;
 }
 
-void Maths122::main_play(int player)
+bool Maths122::main_play(int player)
 {
     qDebug()<<"This is maths122";
     if(pre_requisite_satified(player))
@@ -207,13 +212,41 @@ void Maths122::main_play(int player)
         if(player == MainWindow::main_player_id)
         {
             ChipBox::craft_enabled = false;
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
+        }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
         }
         ChipBox::craft_enabled = true;
-    }
 
+        return true;
+    }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool Maths122::pre_requisite_satified(int player)
@@ -225,16 +258,20 @@ bool Maths122::pre_requisite_satified(int player)
         return false;
 }
 
-void LunchAtBrawtrustHall::main_play(int player)
+bool LunchAtBrawtrustHall::main_play(int player)
 {
     qDebug()<<"This is lunch";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool LunchAtBrawtrustHall::pre_requisite_satified(int player)
@@ -246,16 +283,20 @@ bool LunchAtBrawtrustHall::pre_requisite_satified(int player)
         return false;
 }
 
-void ResearchOnCompilers::main_play(int player)
+bool ResearchOnCompilers::main_play(int player)
 {
     qDebug()<<"This is research";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         learning_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool ResearchOnCompilers::pre_requisite_satified(int player)
@@ -267,16 +308,20 @@ bool ResearchOnCompilers::pre_requisite_satified(int player)
         return false;
 }
 
-void Cecs174::main_play(int player)
+bool Cecs174::main_play(int player)
 {
     qDebug()<<"This is cecs174";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         learning_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool Cecs174::pre_requisite_satified(int player)
@@ -288,16 +333,20 @@ bool Cecs174::pre_requisite_satified(int player)
         return false;
 }
 
-void Cecs100::main_play(int player)
+bool Cecs100::main_play(int player)
 {
     qDebug()<<"This is cecs100";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool Cecs100::pre_requisite_satified(int player)
@@ -309,16 +358,20 @@ bool Cecs100::pre_requisite_satified(int player)
         return false;
 }
 
-void ExerciseInRecreation::main_play(int player)
+bool ExerciseInRecreation::main_play(int player)
 {
     qDebug()<<"This is exercise";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         integrity_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool ExerciseInRecreation::pre_requisite_satified(int player)
@@ -330,16 +383,20 @@ bool ExerciseInRecreation::pre_requisite_satified(int player)
         return false;
 }
 
-void FindLabUsingElevators::main_play(int player)
+bool FindLabUsingElevators::main_play(int player)
 {
     qDebug()<<"This is findlab";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         integrity_chips[player] += 1;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool FindLabUsingElevators::pre_requisite_satified(int player)
@@ -351,7 +408,7 @@ bool FindLabUsingElevators::pre_requisite_satified(int player)
         return false;
 }
 
-void EnjoyPeace::main_play(int player)
+bool EnjoyPeace::main_play(int player)
 {
     qDebug()<<"This is peace";
     if(pre_requisite_satified(player))
@@ -360,12 +417,40 @@ void EnjoyPeace::main_play(int player)
         if(player == MainWindow::main_player_id)
         {
             ChipBox::craft_enabled = false;
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
+        }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
         }
         ChipBox::craft_enabled = true;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool EnjoyPeace::pre_requisite_satified(int player)
@@ -377,7 +462,7 @@ bool EnjoyPeace::pre_requisite_satified(int player)
         return false;
 }
 
-void ParkingViolation::main_play(int player)
+bool ParkingViolation::main_play(int player)
 {
     qDebug()<<"This is Parking";
     if(pre_requisite_satified(player))
@@ -390,9 +475,13 @@ void ParkingViolation::main_play(int player)
             if(DiscardCard::card_discarded)
                 learning_chips[player] += 1;
         }
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool ParkingViolation::pre_requisite_satified(int player)
@@ -404,7 +493,7 @@ bool ParkingViolation::pre_requisite_satified(int player)
         return false;
 }
 
-void JoiningEatOrSoccer::main_play(int player)
+bool JoiningEatOrSoccer::main_play(int player)
 {
     qDebug()<<"This is eatorsoccer";
     if(pre_requisite_satified(player))
@@ -413,12 +502,39 @@ void JoiningEatOrSoccer::main_play(int player)
         if(player == MainWindow::main_player_id)
         {
             ChipBox::integrity_enabled = false;
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
-        ChipBox::craft_enabled = true;
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+        ChipBox::integrity_enabled = true;
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool JoiningEatOrSoccer::pre_requisite_satified(int player)
@@ -430,19 +546,23 @@ bool JoiningEatOrSoccer::pre_requisite_satified(int player)
         return false;
 }
 
-void GetLateForClass::main_play(int player)
+bool GetLateForClass::main_play(int player)
 {
     qDebug()<<"This is late for class";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 1;
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(20, MainWindow::players[player],
                              MainWindow::y_offsets[player]);
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool GetLateForClass::pre_requisite_satified(int player)
@@ -454,15 +574,21 @@ bool GetLateForClass::pre_requisite_satified(int player)
         return false;
 }
 
-void SayGoodByeToProfessor::main_play(int player)
+bool SayGoodByeToProfessor::main_play(int player)
 {
     qDebug()<<"This is good to professor";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 10;
+        return true;
+    }
+
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -479,19 +605,21 @@ bool SayGoodByeToProfessor::pre_requisite_satified(int player)
 }
 
 
-void PassMath123::main_play(int player)
+bool PassMath123::main_play(int player)
 {
     qDebug()<<"This is pass math 123";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 3;
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -506,19 +634,23 @@ bool PassMath123::pre_requisite_satified(int player)
 }
 
 
-void PlayBigGame::main_play(int player)
+bool PlayBigGame::main_play(int player)
 {
     qDebug()<<"This is play big game";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 1;
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(20, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool PlayBigGame::pre_requisite_satified(int player)
@@ -530,18 +662,20 @@ bool PlayBigGame::pre_requisite_satified(int player)
         return false;
 }
 
-void PassPhysics151::main_play(int player)
+bool PassPhysics151::main_play(int player)
 {
     qDebug()<<"This is pass physics";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 3;
+        return false;
     }
 }
 
@@ -555,20 +689,22 @@ bool PassPhysics151::pre_requisite_satified(int player)
         return false;
 }
 
-void PassKin253::main_play(int player)
+bool PassKin253::main_play(int player)
 {
     qDebug()<<"This is passkin";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 2;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(13, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+        return false;
     }
 }
 
@@ -583,18 +719,20 @@ bool PassKin253::pre_requisite_satified(int player)
         return false;
 }
 
-void LearnNetbeans::main_play(int player)
+bool LearnNetbeans::main_play(int player)
 {
     qDebug()<<"This is net beans";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 3;
+        return false;
     }
 }
 
@@ -608,18 +746,20 @@ bool LearnNetbeans::pre_requisite_satified(int player)
 }
 
 
-void ChooseMajor::main_play(int player)
+bool ChooseMajor::main_play(int player)
 {
     qDebug()<<"This is choose major";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 3;
+        return false;
     }
 }
 
@@ -633,7 +773,7 @@ bool ChooseMajor::pre_requisite_satified(int player)
         return false;
 }
 
-void ScoreGoal::main_play(int player)
+bool ScoreGoal::main_play(int player)
 {
     qDebug()<<"This is score goal";
     if(pre_requisite_satified(player))
@@ -641,13 +781,15 @@ void ScoreGoal::main_play(int player)
         qDebug()<<"Success";
         quality_points[player] += 5;
         integrity_chips[player] += 1;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(2, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+        return false;
     }
 }
 
@@ -661,20 +803,22 @@ bool ScoreGoal::pre_requisite_satified(int player)
         return false;
 }
 
-void MakeDeansList::main_play(int player)
+bool MakeDeansList::main_play(int player)
 {
     qDebug()<<"This is make dean list";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(2, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+        return false;
     }
 }
 
@@ -688,18 +832,20 @@ bool MakeDeansList::pre_requisite_satified(int player)
         return false;
 }
 
-void PassSoccerClass::main_play(int player)
+bool PassSoccerClass::main_play(int player)
 {
     qDebug()<<"This is pass soccer class";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 3;
+        return false;
     }
 }
 
@@ -713,7 +859,7 @@ bool PassSoccerClass::pre_requisite_satified(int player)
         return false;
 }
 
-void FallInPond::main_play(int player)
+bool FallInPond::main_play(int player)
 {
     qDebug()<<"This is fallinpond";
     if(pre_requisite_satified(player))
@@ -721,13 +867,15 @@ void FallInPond::main_play(int player)
         qDebug()<<"Success";
         integrity_chips[player] += 1;
         craft_chips[player] += 1;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(20, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+        return false;
     }
 }
 
@@ -741,7 +889,7 @@ bool FallInPond::pre_requisite_satified(int player)
         return false;
 }
 
-void UseNewLaptop::main_play(int player)
+bool UseNewLaptop::main_play(int player)
 {
     qDebug()<<"This is new laptop";
     if(pre_requisite_satified(player))
@@ -750,13 +898,40 @@ void UseNewLaptop::main_play(int player)
         quality_points[player] += 3;
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -770,7 +945,7 @@ bool UseNewLaptop::pre_requisite_satified(int player)
         return false;
 }
 
-void MeetDean::main_play(int player)
+bool MeetDean::main_play(int player)
 {
     qDebug()<<"This is meet dean";
     if(pre_requisite_satified(player))
@@ -778,11 +953,13 @@ void MeetDean::main_play(int player)
         qDebug()<<"Success";
         quality_points[player] += 5;
         add_game_card_in_hand(player);
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -799,7 +976,7 @@ bool MeetDean::pre_requisite_satified(int player)
         return false;
 }
 
-void CrashProgram::main_play(int player)
+bool CrashProgram::main_play(int player)
 {
     qDebug()<<"This is crash program";
     if(pre_requisite_satified(player))
@@ -807,11 +984,13 @@ void CrashProgram::main_play(int player)
         qDebug()<<"Success";
         quality_points[player] += 5;
         add_game_card_in_hand(player);
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -825,18 +1004,20 @@ bool CrashProgram::pre_requisite_satified(int player)
         return false;
 }
 
-void PressFloorButton::main_play(int player)
+bool PressFloorButton::main_play(int player)
 {
     qDebug()<<"This is press floor button";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 2;
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 2;
+        return false;
     }
 }
 
@@ -850,21 +1031,48 @@ bool PressFloorButton::pre_requisite_satified(int player)
         return false;
 }
 
-void MakeAlarmBuzz::main_play(int player)
+bool MakeAlarmBuzz::main_play(int player)
 {
     qDebug()<<"This is make alarm buzz";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
+        craft_chips[player] += 3;
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 2;
+        return false;
     }
 }
 
@@ -878,7 +1086,7 @@ bool MakeAlarmBuzz::pre_requisite_satified(int player)
         return false;
 }
 
-void MeetProfessorEnglert::main_play(int player)
+bool MeetProfessorEnglert::main_play(int player)
 {
     qDebug()<<"This is englert";
     if(pre_requisite_satified(player))
@@ -886,13 +1094,40 @@ void MeetProfessorEnglert::main_play(int player)
         qDebug()<<"Success";
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -900,13 +1135,13 @@ bool MeetProfessorEnglert::pre_requisite_satified(int player)
 {
     int location = MainWindow::current_postions[player];
     int integrity = integrity_chips[player];
-    if((location == 14 || location == 17) && integrity >= 3)
+    if((location == 19) && integrity >= 3)
         return true;
     else
         return false;
 }
 
-void BeSoccerGoalie::main_play(int player)
+bool BeSoccerGoalie::main_play(int player)
 {
     qDebug()<<"This is goalie";
     if(pre_requisite_satified(player))
@@ -914,13 +1149,15 @@ void BeSoccerGoalie::main_play(int player)
         qDebug()<<"Success";
         quality_points[player] += 5;
         add_game_card_in_hand(player);
+        return true;
     }
     else
     {
         qDebug()<<"fail";
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(2, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+        return false;
     }
 }
 
@@ -935,7 +1172,7 @@ bool BeSoccerGoalie::pre_requisite_satified(int player)
         return false;
 }
 
-void TakeElectiveClass::main_play(int player)
+bool TakeElectiveClass::main_play(int player)
 {
     qDebug()<<"This is effective class";
     if(pre_requisite_satified(player))
@@ -943,11 +1180,13 @@ void TakeElectiveClass::main_play(int player)
         qDebug()<<"Success";
         learning_chips[player] += 1;
         add_game_card_in_hand(player);
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 2;
+        return false;
     }
 }
 
@@ -962,7 +1201,7 @@ bool TakeElectiveClass::pre_requisite_satified(int player)
 }
 
 
-void MeetProfessorHoffman::main_play(int player)
+bool MeetProfessorHoffman::main_play(int player)
 {
     qDebug()<<"This is hoffman";
     if(pre_requisite_satified(player))
@@ -971,14 +1210,17 @@ void MeetProfessorHoffman::main_play(int player)
         quality_points[player] += 5;
         add_game_card_in_hand(player);
         add_game_card_in_hand(player);
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 5;
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(20, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+
+        return false;
     }
 }
 
@@ -994,7 +1236,7 @@ bool MeetProfessorHoffman::pre_requisite_satified(int player)
         return false;
 }
 
-void GoToOutpost::main_play(int player)
+bool GoToOutpost::main_play(int player)
 {
     qDebug()<<"This is outpost";
     if(pre_requisite_satified(player))
@@ -1002,11 +1244,42 @@ void GoToOutpost::main_play(int player)
         qDebug()<<"Success";
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+
+        return true;
     }
+
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool GoToOutpost::pre_requisite_satified(int player)
@@ -1020,7 +1293,7 @@ bool GoToOutpost::pre_requisite_satified(int player)
         return false;
 }
 
-void AttendOralCommunication::main_play(int player)
+bool AttendOralCommunication::main_play(int player)
 {
     qDebug()<<"This is oral communication";
     if(pre_requisite_satified(player))
@@ -1029,13 +1302,41 @@ void AttendOralCommunication::main_play(int player)
         quality_points[player] += 4;
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+        return false;
     }
 }
 
@@ -1051,20 +1352,24 @@ bool AttendOralCommunication::pre_requisite_satified(int player)
         return false;
 }
 
-void PassChemsitry111::main_play(int player)
+bool PassChemsitry111::main_play(int player)
 {
     qDebug()<<"This is pass chemistry";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         quality_points[player] += 5;
+
+        return true;
     }
     else
     {
         qDebug()<<"fail";
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(2, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+
+        return false;
     }
 }
 
@@ -1080,7 +1385,7 @@ bool PassChemsitry111::pre_requisite_satified(int player)
         return false;
 }
 
-void LearnLinux::main_play(int player)
+bool LearnLinux::main_play(int player)
 {
     qDebug()<<"This is learn linux";
     if(pre_requisite_satified(player))
@@ -1089,13 +1394,42 @@ void LearnLinux::main_play(int player)
         quality_points[player] += 3;
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         quality_points[player] -= 1;
+
+        return false;
     }
 }
 
@@ -1111,7 +1445,7 @@ bool LearnLinux::pre_requisite_satified(int player)
 }
 
 
-void MakeFriend::main_play(int player)
+bool MakeFriend::main_play(int player)
 {
     qDebug()<<"This is make friend";
     if(pre_requisite_satified(player))
@@ -1120,13 +1454,42 @@ void MakeFriend::main_play(int player)
         quality_points[player] += 3;
         if(player == MainWindow::main_player_id)
         {
-            ChipBox chip;
+            ChipBox chip(true);
+            if(ChipBox::got_integrity_chip)
+            {
+                integrity_chips[player] += 1;
+                ChipBox::got_integrity_chip = false;
+            }
+            else if(ChipBox::got_craft_chip)
+            {
+                craft_chips[player] += 1;
+                ChipBox::got_craft_chip = false;
+            }
+            else if(ChipBox::got_learning_chip)
+            {
+                learning_chips[player] += 1;
+                ChipBox::got_learning_chip = false;
+            }
         }
+
+        else
+        {
+            QList<int> enabled_chips;
+            enabled_chips.insert(0,1);
+            enabled_chips.insert(1,2);
+            enabled_chips.insert(2,3);
+            ChipBox chip(false);
+            chip.chip_selection_ai(enabled_chips,player);
+        }
+
+        return true;
     }
     else
     {
         qDebug()<<"fail";
         remove_game_card_from_hand(player);
+
+        return false;
     }
 }
 
@@ -1140,19 +1503,24 @@ bool MakeFriend::pre_requisite_satified(int player)
         return false;
 }
 
-void EnjoyNature::main_play(int player)
+bool EnjoyNature::main_play(int player)
 {
     qDebug()<<"This is enjoy nature";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 1;
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(20, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+
+        return true;
     }
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool EnjoyNature::pre_requisite_satified(int player)
@@ -1166,20 +1534,25 @@ bool EnjoyNature::pre_requisite_satified(int player)
         return false;
 }
 
-void ParkInStudentParking::main_play(int player)
+bool ParkInStudentParking::main_play(int player)
 {
     qDebug()<<"This is parking in student parking";
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
         craft_chips[player] += 1;
-        MainWindow window;
+        MainWindow window(false);
         window.relocate(20, MainWindow::players[player],
                         MainWindow::y_offsets[player]);
+
+        return true;
     }
 
     else
+    {
         qDebug()<<"fail";
+        return false;
+    }
 }
 
 bool ParkInStudentParking::pre_requisite_satified(int player)
@@ -1202,7 +1575,7 @@ void GamePlay::add_game_card_in_hand(int player)
              complete_card_deck.removeFirst();
              cards_in_hand.insert(0,top_of_deck);
              top_card_in_hand = 0;
-             MainWindow window;
+             MainWindow window(false);
              window.set_icon_as_card();
         }
     }
@@ -1239,17 +1612,30 @@ void GamePlay::remove_game_card_from_hand(int player)
         if(card_to_be_removed != 0)
         {
             if(card_to_be_removed == top_card_in_hand)
+            {
+                discarded_card_deck.append(card_to_be_removed - 1);
                 cards_in_hand.removeAt(card_to_be_removed - 1);
+            }
             else
+            {
+                discarded_card_deck.append(card_to_be_removed);
                 cards_in_hand.removeAt(card_to_be_removed);
+            }
         }
         else
         {
             card_to_be_removed = 3;
             if(card_to_be_removed == top_card_in_hand)
+            {
+                discarded_card_deck.append(card_to_be_removed - 1);
                 cards_in_hand.removeAt(card_to_be_removed - 1);
+
+            }
             else
+            {
+                discarded_card_deck.append(card_to_be_removed);
                 cards_in_hand.removeAt(card_to_be_removed);
+            }
         }
     }
 
@@ -1258,9 +1644,15 @@ void GamePlay::remove_game_card_from_hand(int player)
         int hand = ai1_hand.size();
         int card_to_be_removed = gen_rand_number(hand);
         if(card_to_be_removed != 0)
+        {
+            discarded_card_deck.append(card_to_be_removed);
             ai1_hand.removeAt(card_to_be_removed);
+        }
         else
+        {
+            discarded_card_deck.append(1);
             ai1_hand.removeAt(1);
+        }
     }
 
     if(player == MainWindow::ai_player2_id)
@@ -1268,8 +1660,14 @@ void GamePlay::remove_game_card_from_hand(int player)
         int hand = ai2_hand.size();
         int card_to_be_removed = gen_rand_number(hand);
         if(card_to_be_removed != 0)
+        {
+            discarded_card_deck.append(card_to_be_removed);
             ai2_hand.removeAt(card_to_be_removed);
+        }
         else
+        {
+            discarded_card_deck.append(1);
             ai2_hand.removeAt(1);
+        }
     }
 }

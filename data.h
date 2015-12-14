@@ -36,10 +36,12 @@ class DataProcessing : public QMainWindow
 
 public:
     QJsonObject read_json(int place_id);
+    QJsonObject read_card_json(int card_id);
     int get_xvalue(int place_id);
     int get_yvalue(int place_id);
     QJsonArray get_accessible(int place_id);
     QString get_title(int place_id);
+    QString get_card_title(int card_id);
 };
 
 #endif // DATA

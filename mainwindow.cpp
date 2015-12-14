@@ -57,7 +57,7 @@ QList<QWidget*> MainWindow::players = empty_widget_list();
 
 using namespace std;
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
+MainWindow::MainWindow(bool prepare,QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     /*
@@ -74,17 +74,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     qsrand((uint)time.second());
 
     //After generating random numbers, prepare board
-    this->prepare_board();
+    if(!prepare)
+    {
+
+    }
+    else
+    {
+        this->prepare_board();
+        this->render_room_list(17);
+        ui->room_list->hide();
+        ui->move->hide();
+        ui->play_card->hide();
+        ui->draw_card->hide();
+    }
 
     //render dropdown list for room number 17 which is initial player postion
-    this->render_room_list(17);
+
 
     //hide dropdown and move button. They will be displayed once start button
     //is clicked
-    ui->room_list->hide();
-    ui->move->hide();
-    ui->play_card->hide();
-    ui->draw_card->hide();
+
 }
 
 MainWindow::~MainWindow()
@@ -153,7 +162,7 @@ void MainWindow::prepare_board()
     ai_player1 = players[0];
     ai_player2 = players[1];
     players.clear();
-    players.insert(main_player_id,main_player);
+    players.insert(main_player_id, main_player);
     players.insert(ai_player1_id, ai_player1);
     players.insert(ai_player2_id, ai_player2);
     y_offsets[main_player_id] = 0;
@@ -170,14 +179,14 @@ void MainWindow::setup_tables()
     bold_font.setBold(true);
     bold_font.setPointSize(10);
 
-    ui->ip->setColumnCount(6);
+    ui->ip->setColumnCount(5);
     ui->ip->setRowCount(4);
     ui->ip->verticalHeader()->setVisible(false);
     ui->ip->horizontalHeader()->setVisible(false);
     ui->add_info->verticalHeader()->setVisible(false);
     ui->add_info->horizontalHeader()->setVisible(false);
     ui->add_info->setColumnCount(2);
-    ui->add_info->setRowCount(5);
+    ui->add_info->setRowCount(4);
 
     QTableWidgetItem *item = ui->ip->item(0,0);
     if(!item)
@@ -227,16 +236,6 @@ void MainWindow::setup_tables()
         ui->ip->setItem(0,4, item);
     }
     item->setText("Integrity Chips");
-    item->setFont(bold_font);
-
-    item = ui->ip->item(0,5);
-    if(!item)
-    {
-        item = new QTableWidgetItem;
-        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
-        ui->ip->setItem(0,5, item);
-    }
-    item->setText("Learning Chips");
     item->setFont(bold_font);
 
     item = ui->ip->item(1,0);
@@ -321,6 +320,12 @@ void MainWindow::relocate(int place_id, QWidget *player, int y_offset)
     DataProcessing data;
     int x_value = data.get_xvalue(place_id);
     int y_value = data.get_yvalue(place_id);
+    qDebug()<<"place:"<<place_id;
+    qDebug()<<"x:"<<x_value<<" y:"<<y_value;
+    qDebug()<<player;
+    qDebug()<<"main:"<<main_player;
+    qDebug()<<"ai1:"<<ai_player1;
+    qDebug()<<"ai2:"<<ai_player2;
     player->move(x_value,y_value + y_offset);
 }
 
@@ -347,7 +352,6 @@ void MainWindow::on_move_clicked()
         human_player_turns = human_player_turns + 1;
         //relocate main_player as per selected room
         this->relocate(user_data,main_player,0);
-        ui->moves->addItem("Main player moved to " + QString::number(user_data));
         current_postions[main_player_id] = user_data;
     }
 
@@ -356,11 +360,19 @@ void MainWindow::on_move_clicked()
         human_player_turns = human_player_turns + 1;
         //relocate main_player as per selected room
         this->relocate(user_data,main_player,0);
-        ui->moves->addItem("Main player moved to " + QString::number(user_data));
-
         ui->move->setEnabled(false);
         current_postions[main_player_id] = user_data;
     }
+
+
+    QTableWidgetItem *item = ui->add_info->item(1,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(1,1, item);
+    }
+    item->setText(data.get_title(current_postions[main_player_id]));
 
     this->render_room_list(user_data);
 }
@@ -427,6 +439,45 @@ void MainWindow::on_start_clicked()
        GamePlay::integrity_chips[i] = 10;
        GamePlay:: quality_points[i] = 10;
     }
+
+    DataProcessing data;
+
+    QTableWidgetItem *item = ui->add_info->item(0,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(0,1, item);
+    }
+    item->setText(main_player_name);
+
+    item = ui->add_info->item(1,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(1,1, item);
+    }
+    item->setText(data.get_title(current_postions[main_player_id]));
+
+    item = ui->add_info->item(2,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(2,1, item);
+    }
+    item->setText(QString::number(GamePlay::cards_in_hand.size()));
+
+    item = ui->add_info->item(3,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(3,1, item);
+    }
+    item->setText(QString::number(GamePlay::discarded_card_deck.size()));
+
 }
 
 int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
@@ -503,15 +554,6 @@ void MainWindow::set_cards_in_hand()
         }
     }
 
-    qDebug()<<"Final Size:"<<GamePlay::cards_in_hand.size();
-    for(int i = 0; i < GamePlay::cards_in_hand.size(); i++)
-    {
-        qDebug()<<"human final:"<<GamePlay::cards_in_hand.value(i);
-        qDebug()<<"ai 1 final:"<<GamePlay::ai1_hand.value(i);
-        qDebug()<<"ai 2 final:"<<GamePlay::ai2_hand.value(i);
-    }
-    qDebug()<<"final size of main"<<GamePlay::complete_card_deck.size();
-
 }
 
 void MainWindow::set_icon_as_card()
@@ -545,6 +587,8 @@ void MainWindow::on_draw_card_clicked()
 {
     GamePlay game;
     game.randomize_deck();
+
+    QTableWidgetItem *item;
     int top_of_deck = GamePlay::complete_card_deck.value(0);
     if(top_of_deck >= 0 && top_of_deck <= 51)
     {
@@ -560,14 +604,37 @@ void MainWindow::on_draw_card_clicked()
     {
         qDebug()<<"Exception while drawing cards";
     }
+
+    item = ui->add_info->item(2,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(2,1, item);
+    }
+    item->setText(QString::number(GamePlay::cards_in_hand.size()));
+
 }
 
 void MainWindow::on_play_card_clicked()
 {
+    qDebug()<<"---------------------------------";
+    DataProcessing data;
+    ui->moves->clear();
     int top_card = GamePlay::cards_in_hand.value(GamePlay::top_card_in_hand) - 1;
-    qDebug()<<"top card:"<<top_card;
-    qDebug()<<"current pos:"<<current_postions[main_player_id];
-    Cards::play[top_card]->main_play(main_player_id);
+    bool success = Cards::play[top_card]->main_play(main_player_id);
+    QString card_name = data.get_card_title(top_card);
+    if(success)
+    {
+        ui->moves->addItem(main_player_name + " played " + card_name +
+                           " for rewards.");
+    }
+
+    else
+    {
+        ui->moves->addItem(main_player_name + " played " + card_name +
+                           " and failed.");
+    }
     GamePlay::discarded_card_deck.append(top_card);
     GamePlay::cards_in_hand.removeAt(GamePlay::top_card_in_hand);
     if(GamePlay::top_card_in_hand > 0)
@@ -583,12 +650,12 @@ void MainWindow::on_play_card_clicked()
 
     ui->play_card->setEnabled(false);
 
+
+
     do
     {
         current_player_id = ai_player1_id;
         int pos_ai_1 = this->move_ai_player(ai_player1,pos_ai_player[0], 18);
-        ui->moves->addItem("First AI player moved to " + \
-                               QString::number(pos_ai_1));
         current_postions[ai_player1_id] = pos_ai_1;
         ai_player1_turns += 1;
     }while(ai_player1_turns <= 3);
@@ -599,9 +666,6 @@ void MainWindow::on_play_card_clicked()
     {
         current_player_id = ai_player2_id;
         int pos_ai_2 = this->move_ai_player(ai_player2,pos_ai_player[1],36);
-
-        ui->moves->addItem("Second AI player moved to " + \
-                               QString::number(pos_ai_2));
         current_postions[ai_player2_id] = pos_ai_2;
         ai_player2_turns += 1;
     }while(ai_player2_turns <= 3);
@@ -613,10 +677,6 @@ void MainWindow::on_play_card_clicked()
     ai_player2_turns = 1;
     ui->draw_card->setEnabled(true);
     refresh_information_panel();
-    qDebug()<<GamePlay::quality_points[main_player_id];
-    qDebug()<<GamePlay::craft_chips[main_player_id];
-    qDebug()<<GamePlay::integrity_chips[main_player_id];
-    qDebug()<<GamePlay::learning_chips[main_player_id];
 }
 
 void MainWindow::ai_draw_card(int player)
@@ -649,31 +709,56 @@ void MainWindow::ai_draw_card(int player)
 
 void MainWindow::ai_play(int player)
 {
+    DataProcessing data;
     ai_draw_card(player);
     if(player == ai_player1_id)
     {
         qDebug()<<"ai 1 play";
         int play_card = gen_rand_number(GamePlay::ai1_hand.size()-1);
-        Cards::play[play_card]->main_play(player);
+        bool success = Cards::play[play_card]->main_play(player);
         GamePlay::discarded_card_deck.append(play_card);
         GamePlay::ai1_hand.removeAt(play_card);
+        QString card_name = data.get_card_title(play_card);
+        if(success)
+        {
+            ui->moves->addItem(ai_player1_name + " played " + card_name +
+                               " for rewards.");
+        }
+
+        else
+        {
+            ui->moves->addItem(ai_player1_name + " played " + card_name +
+                               " and failed.");
+        }
+
     }
 
     if(player == ai_player2_id)
     {
         qDebug()<<"ai 2 play";
         int play_card = gen_rand_number(GamePlay::ai2_hand.size()-1);
-        Cards::play[play_card]->main_play(player);
+        bool success = Cards::play[play_card]->main_play(player);
         GamePlay::discarded_card_deck.append(play_card);
         GamePlay::ai2_hand.removeAt(play_card);
+        QString card_name = data.get_card_title(play_card);
+        if(success)
+        {
+            ui->moves->addItem(ai_player2_name + " played " + card_name +
+                               " for rewards.");
+        }
+
+        else
+        {
+            ui->moves->addItem(ai_player2_name + " played " + card_name +
+                               " and failed.");
+        }
     }
 }
 
 void MainWindow::refresh_information_panel()
 {
-    setup_tables();
-
     qDebug()<<"refresh";
+    DataProcessing data;
     QTableWidgetItem *item = ui->ip->item(1,1);
     if(!item)
     {
@@ -785,4 +870,31 @@ void MainWindow::refresh_information_panel()
         ui->ip->setItem(3,4, item);
     }
     item->setText(QString::number(GamePlay::integrity_chips[ai_player2_id]));
+
+    item = ui->add_info->item(1,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(1,1, item);
+    }
+    item->setText(data.get_title(current_postions[main_player_id]));
+
+    item = ui->add_info->item(2,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(2,1, item);
+    }
+    item->setText(QString::number(GamePlay::cards_in_hand.size()));
+
+    item = ui->add_info->item(3,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->add_info->setItem(3,1, item);
+    }
+    item->setText(QString::number(GamePlay::discarded_card_deck.size()));
 }

@@ -55,5 +55,6 @@
     </qresource>
     <qresource prefix="/">
         <file>resources/info.json</file>
+        <file>resources/cards.json</file>
     </qresource>
 </RCC>

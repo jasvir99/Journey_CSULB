@@ -43,7 +43,7 @@ public:
      static int top_card_in_hand_ai1;
      static int top_card_in_hand_ai2;
      int gen_rand_number(int max);
-     virtual void main_play(int player);
+     virtual bool main_play(int player);
      static int learning_chips[3];
      static int craft_chips[3];
      static int quality_points[3];
@@ -70,7 +70,7 @@ public:
 class Cecs105 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -78,7 +78,7 @@ public:
 class Maths122 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -86,84 +86,84 @@ public:
 class LunchAtBrawtrustHall : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ResearchOnCompilers : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class Cecs174 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class Cecs100 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ExerciseInRecreation : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class FindLabUsingElevators : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class EnjoyPeace : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ParkingViolation : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class JoiningEatOrSoccer : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class GetLateForClass : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class SayGoodByeToProfessor : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class PassMath123 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -171,7 +171,7 @@ public:
 class PlayBigGame : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -179,7 +179,7 @@ public:
 class PassPhysics151 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -187,7 +187,7 @@ public:
 class PassKin253 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -195,7 +195,7 @@ public:
 class LearnNetbeans : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -203,7 +203,7 @@ public:
 class ChooseMajor : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -211,7 +211,7 @@ public:
 class ScoreGoal : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -219,7 +219,7 @@ public:
 class MakeDeansList : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 
@@ -228,7 +228,7 @@ public:
 class PassSoccerClass : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -236,7 +236,7 @@ public:
 class FallInPond : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -244,7 +244,7 @@ public:
 class UseNewLaptop : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -252,7 +252,7 @@ public:
 class MeetDean : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -260,7 +260,7 @@ public:
 class CrashProgram : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -268,7 +268,7 @@ public:
 class PressFloorButton : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -276,7 +276,7 @@ public:
 class MakeAlarmBuzz : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -284,7 +284,7 @@ public:
 class MeetProfessorEnglert : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -292,7 +292,7 @@ public:
 class BeSoccerGoalie : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -300,7 +300,7 @@ public:
 class TakeElectiveClass : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -308,7 +308,7 @@ public:
 class MeetProfessorHoffman : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -316,14 +316,14 @@ public:
 class GoToOutpost : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class AttendOralCommunication : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -331,7 +331,7 @@ public:
 class PassChemsitry111 : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -339,7 +339,7 @@ public:
 class LearnLinux : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -347,7 +347,7 @@ public:
 class MakeFriend : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -355,14 +355,14 @@ public:
 class EnjoyNature : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ParkInStudentParking : public GamePlay
 {
 public:
-    void main_play(int player);
+    bool main_play(int player);
     bool pre_requisite_satified(int player);
 };
 

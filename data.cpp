@@ -47,6 +47,33 @@ QJsonObject DataProcessing::read_json(int place_id)
     return obj2;
 }
 
+QJsonObject DataProcessing::read_card_json(int card_id)
+{
+    /*
+     * Function to read json data from info file. This function accepts card_id
+     * as argument which is id of the rooms for which information is needed.
+     */
+
+    //convert int argument to QString
+    QString place = QString::number(card_id);
+    QString val;
+    QFile file;
+
+    //read json file in readonly mode
+    file.setFileName(":/resources/cards.json");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    val = file.readAll();
+
+    //close json file
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(val.toUtf8());
+    QJsonObject obj = doc.object();
+    QJsonValue value = obj.value(place);
+    QJsonObject obj2 = value.toObject();
+    return obj2;
+}
+
 int DataProcessing::get_xvalue(int place_id)
 {
     /*
@@ -87,6 +114,17 @@ QString DataProcessing::get_title(int place_id)
      */
 
     QJsonObject obj = this->read_json(place_id);
+    QString title = obj["title"].toString();
+    return title;
+}
+
+QString DataProcessing::get_card_title(int card_id)
+{
+    /*
+     * function to get title of card marked with card_id
+     */
+
+    QJsonObject obj = this->read_card_json(card_id);
     QString title = obj["title"].toString();
     return title;
 }

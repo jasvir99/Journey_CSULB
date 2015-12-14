@@ -70,10 +70,12 @@ void DiscardCard::on_discard_clicked()
         GamePlay::top_card_in_hand = 0;
     }
 
-    MainWindow window;
+    MainWindow window(false);
     window.set_icon_as_card();
+    window.refresh_information_panel();
 
     card_discarded = true;
+
 
     this->close();
 }

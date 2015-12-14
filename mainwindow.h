@@ -54,7 +54,7 @@ public:
     static int ai_player1_turns;
     static int ai_player2_turns;
     static int y_offsets[3];
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(bool prepare,QWidget *parent = 0);
     int gen_rand_number(int max);
     ~MainWindow();
     QString name;
