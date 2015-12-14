@@ -4,7 +4,7 @@
 
 bool ChipBox::learning_enabled = true;
 bool ChipBox::craft_enabled = true;
-bool ChipBox::integrity_enabaled = true;
+bool ChipBox::integrity_enabled = true;
 
 ChipBox::ChipBox(QWidget *parent) :
     QDialog(parent),
@@ -16,7 +16,7 @@ ChipBox::ChipBox(QWidget *parent) :
         ui->learning_chip->setEnabled(false);
     if(!craft_enabled)
         ui->craft_chip->setEnabled(false);
-    if(!integrity_enabaled)
+    if(!integrity_enabled)
         ui->integrity_chip->setEnabled(false);
     this->exec();
 }

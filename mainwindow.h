@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    QList<QWidget*> players;
+    static QList<QWidget*> players;
     static QWidget* main_player;
     static QWidget* ai_player1;
     static QWidget* ai_player2;
@@ -53,10 +53,14 @@ public:
     static int human_player_turns;
     static int ai_player1_turns;
     static int ai_player2_turns;
+    static int y_offsets[3];
     explicit MainWindow(QWidget *parent = 0);
     int gen_rand_number(int max);
     ~MainWindow();
     QString name;
+    void set_icon_as_card();
+    void relocate(int place_id, QWidget *player, int y_offset);
+    void refresh_information_panel();
 
 private slots:
     void on_move_clicked();
@@ -70,12 +74,10 @@ private:
     Ui::MainWindow *ui;
     QImage  *imageObject;
     QGraphicsScene *scene;
-    void relocate(int place_id, QWidget *player, int y_offset);
     void prepare_board();
     void render_room_list(int place_id);
     int move_ai_player(QWidget *player, int current_pos, int y_offset);
     void set_cards_in_hand();
-    void set_icon_as_card();
     void setup_tables();
     void ai_play(int player);
     void ai_draw_card(int player);

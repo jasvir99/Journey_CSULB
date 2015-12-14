@@ -18,15 +18,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     data.cpp \
     cards.cpp \
-    chipbox.cpp
+    chipbox.cpp \
+    discardcard.cpp
 
 HEADERS  += mainwindow.h \
     data.h \
     cards.h \
-    chipbox.h
+    chipbox.h \
+    discardcard.h
 
 FORMS    += mainwindow.ui \
-    chipbox.ui
+    chipbox.ui \
+    discardcard.ui
 
 RESOURCES += \
     resources.qrc

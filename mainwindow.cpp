@@ -23,6 +23,7 @@
 #include <iterator>
 #include <algorithm>
 #include "chipbox.h"
+#include "discardcard.h"
 
 //Initializing static data members
 
@@ -33,7 +34,7 @@ int MainWindow::main_player_id = 0;
 int MainWindow::ai_player1_id = 0;
 int MainWindow::ai_player2_id = 0;
 int MainWindow::current_player_id = MainWindow::main_player_id;
-
+int MainWindow::y_offsets[3] = {};
 int MainWindow::init_x_value = 1000;
 int MainWindow::init_y_value = 1560;
 int MainWindow::player_index = 0;
@@ -42,6 +43,15 @@ int MainWindow::ai_player1_turns = 1;
 int MainWindow::ai_player2_turns = 1;
 int MainWindow::pos_ai_player[2] = {17,17};
 int MainWindow::current_postions[3] = {17,17,17};
+
+QList<QWidget*> empty_widget_list()
+{
+    //special function to initialize empty qlist
+    QList<QWidget*> list;
+    return list;
+}
+
+QList<QWidget*> MainWindow::players = empty_widget_list();
 
 //Done with initialization of static data members
 
@@ -142,6 +152,13 @@ void MainWindow::prepare_board()
     players.removeAt(a);
     ai_player1 = players[0];
     ai_player2 = players[1];
+    players.clear();
+    players.insert(main_player_id,main_player);
+    players.insert(ai_player1_id, ai_player1);
+    players.insert(ai_player2_id, ai_player2);
+    y_offsets[main_player_id] = 0;
+    y_offsets[ai_player1_id] = 18;
+    y_offsets[ai_player2_id] = 36;
     ai_player1->setStyleSheet("color: orange");
     ai_player2->setStyleSheet("color: orange");
     set_cards_in_hand();
@@ -402,6 +419,14 @@ void MainWindow::on_start_clicked()
     set_icon_as_card();
     Cards card_init;
     card_init.initialize_map_with_objects();
+
+    for (int i = 0; i < 3; i++)
+    {
+       GamePlay::craft_chips[i] = 10;
+       GamePlay::learning_chips[i] = 10;
+       GamePlay::integrity_chips[i] = 10;
+       GamePlay:: quality_points[i] = 10;
+    }
 }
 
 int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
@@ -493,7 +518,7 @@ void MainWindow::set_icon_as_card()
 {
     QString top_deck_card = QString::number(GamePlay::cards_in_hand.value(
                                                 GamePlay::top_card_in_hand
-                                                ) + 1);
+                                                ));
     QString card_name = ":/images/resources/" + top_deck_card + ".png";
     QPixmap* top_card = new QPixmap(card_name);
     qDebug()<<card_name;
@@ -521,7 +546,7 @@ void MainWindow::on_draw_card_clicked()
     GamePlay game;
     game.randomize_deck();
     int top_of_deck = GamePlay::complete_card_deck.value(0);
-    if(top_of_deck != 0)
+    if(top_of_deck >= 0 && top_of_deck <= 51)
     {
          GamePlay::complete_card_deck.removeFirst();
          GamePlay::cards_in_hand.insert(0,top_of_deck);
@@ -531,11 +556,15 @@ void MainWindow::on_draw_card_clicked()
          ui->play_card->setEnabled(true);
          ui->move->setEnabled(true);
     }
+    else
+    {
+        qDebug()<<"Exception while drawing cards";
+    }
 }
 
 void MainWindow::on_play_card_clicked()
 {
-    int top_card = GamePlay::cards_in_hand.value(GamePlay::top_card_in_hand);
+    int top_card = GamePlay::cards_in_hand.value(GamePlay::top_card_in_hand) - 1;
     qDebug()<<"top card:"<<top_card;
     qDebug()<<"current pos:"<<current_postions[main_player_id];
     Cards::play[top_card]->main_play(main_player_id);
@@ -583,6 +612,11 @@ void MainWindow::on_play_card_clicked()
     ai_player1_turns = 1;
     ai_player2_turns = 1;
     ui->draw_card->setEnabled(true);
+    refresh_information_panel();
+    qDebug()<<GamePlay::quality_points[main_player_id];
+    qDebug()<<GamePlay::craft_chips[main_player_id];
+    qDebug()<<GamePlay::integrity_chips[main_player_id];
+    qDebug()<<GamePlay::learning_chips[main_player_id];
 }
 
 void MainWindow::ai_draw_card(int player)
@@ -633,4 +667,122 @@ void MainWindow::ai_play(int player)
         GamePlay::discarded_card_deck.append(play_card);
         GamePlay::ai2_hand.removeAt(play_card);
     }
+}
+
+void MainWindow::refresh_information_panel()
+{
+    setup_tables();
+
+    qDebug()<<"refresh";
+    QTableWidgetItem *item = ui->ip->item(1,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(1,1, item);
+    }
+    item->setText(QString::number(GamePlay::quality_points[main_player_id]));
+
+    item = ui->ip->item(1,2);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(1,2, item);
+    }
+    item->setText(QString::number(GamePlay::learning_chips[main_player_id]));
+
+    item = ui->ip->item(1,3);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(1,3, item);
+    }
+    item->setText(QString::number(GamePlay::craft_chips[main_player_id]));
+
+    item = ui->ip->item(1,4);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(1,4, item);
+    }
+    item->setText(QString::number(GamePlay::integrity_chips[main_player_id]));
+
+    //for ai players
+
+    item = ui->ip->item(2,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(2,1, item);
+    }
+    item->setText(QString::number(GamePlay::quality_points[ai_player1_id]));
+
+    item = ui->ip->item(2,2);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(2,2, item);
+    }
+    item->setText(QString::number(GamePlay::learning_chips[ai_player1_id]));
+
+    item = ui->ip->item(2,3);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(2,3, item);
+    }
+    item->setText(QString::number(GamePlay::craft_chips[ai_player1_id]));
+
+    item = ui->ip->item(2,4);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(2,4, item);
+    }
+    item->setText(QString::number(GamePlay::integrity_chips[ai_player1_id]));
+
+    //second ai_player
+
+    item = ui->ip->item(3,1);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(3,1, item);
+    }
+    item->setText(QString::number(GamePlay::quality_points[ai_player2_id]));
+
+    item = ui->ip->item(3,2);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(3,2, item);
+    }
+    item->setText(QString::number(GamePlay::learning_chips[ai_player2_id]));
+
+    item = ui->ip->item(3,3);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(3,3, item);
+    }
+    item->setText(QString::number(GamePlay::craft_chips[ai_player2_id]));
+
+    item = ui->ip->item(3,4);
+    if(!item)
+    {
+        item = new QTableWidgetItem;
+        item->setFlags(item->flags() ^ Qt::ItemIsEditable);
+        ui->ip->setItem(3,4, item);
+    }
+    item->setText(QString::number(GamePlay::integrity_chips[ai_player2_id]));
 }

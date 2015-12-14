@@ -14,7 +14,7 @@ class ChipBox : public QDialog
 public:
     explicit ChipBox(QWidget *parent = 0);
     ~ChipBox();
-    static bool integrity_enabaled;
+    static bool integrity_enabled;
     static bool craft_enabled;
     static bool learning_enabled;
 

@@ -21,7 +21,7 @@
 #include "chipbox.h"
 #include <map>
 #include <utility>
-
+#include "discardcard.h"
 
 //Initializing static data members
 
@@ -31,9 +31,9 @@ int GamePlay::top_card_in_hand = 0;
 int GamePlay::top_card_in_hand_ai1 = 0;
 int GamePlay::top_card_in_hand_ai2 = 0;
 int GamePlay::craft_chips[3] = {};
-int GamePlay::learning_chips[3] = {};
-int GamePlay::integrity_chips[3] = {};
-int GamePlay::quality_points[3] = {};
+int GamePlay::learning_chips[3] = {10,10,10};
+int GamePlay::integrity_chips[3] = {10,10,10};
+int GamePlay::quality_points[3] = {10,10,10};
 
 std::map<int, GamePlay*> Cards::play;
 
@@ -45,25 +45,25 @@ QList<int> empty_list()
 }
 
 QList<int> GamePlay::cards_in_hand = empty_list();
-QList<int> GamePlay::complete_card_deck = empty_list();
 QList<int> GamePlay::ai1_hand = empty_list();
 QList<int> GamePlay::ai2_hand = empty_list();
 QList<int> GamePlay::discarded_card_deck = empty_list();
 
-GamePlay::GamePlay()
+QList<int> init_complete_deck()
 {
+    QList<int> deck;
     for(int i = 0; i < 51; i++)
     {
-        complete_card_deck.insert(i,i+1);
+        deck.insert(i,i+1);
     }
 
-    for (int i = 0; i < 3; i++)
-    {
-        craft_chips[i] = 0;
-        learning_chips[i] = 0;
-        integrity_chips[i] = 0;
-        quality_points[i] = 0;
-    }
+    return deck;
+}
+
+QList<int> GamePlay::complete_card_deck = init_complete_deck();
+
+GamePlay::GamePlay()
+{
 
     QTime time = QTime::currentTime();
     qsrand((uint)time.second());
@@ -133,7 +133,7 @@ void Cards::initialize_map_with_objects()
     play.insert(std::make_pair(11, new JoiningEatOrSoccer));
     play.insert(std::make_pair(12, new GetLateForClass));
     play.insert(std::make_pair(13, new PlayBigGame));
-    //play.insert(std::make_pair(14, new Maths123()));
+    play.insert(std::make_pair(14, new PassMath123()));
     play.insert(std::make_pair(15, new PassPhysics151()));
     play.insert(std::make_pair(16, new PassKin253()));
     play.insert(std::make_pair(17, new LearnNetbeans()));
@@ -172,6 +172,11 @@ void Cards::initialize_map_with_objects()
     play.insert(std::make_pair(50, new EnjoyPeace));
 }
 
+void GamePlay::main_play(int player)
+{
+    //defination of virtual function;
+}
+
 void Cecs105::main_play(int player)
 {
     qDebug()<<"This is cecs105";
@@ -199,11 +204,12 @@ void Maths122::main_play(int player)
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
-        if(player = MainWindow::main_player_id)
+        if(player == MainWindow::main_player_id)
         {
             ChipBox::craft_enabled = false;
             ChipBox chip;
         }
+        ChipBox::craft_enabled = true;
     }
 
     else
@@ -351,11 +357,12 @@ void EnjoyPeace::main_play(int player)
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
-        if(player = MainWindow::main_player_id)
+        if(player == MainWindow::main_player_id)
         {
             ChipBox::craft_enabled = false;
             ChipBox chip;
         }
+        ChipBox::craft_enabled = true;
     }
     else
         qDebug()<<"fail";
@@ -376,7 +383,13 @@ void ParkingViolation::main_play(int player)
     if(pre_requisite_satified(player))
     {
         qDebug()<<"Success";
-
+        learning_chips[player] += 1;
+        if(player == MainWindow::main_player_id)
+        {
+            DiscardCard discard;
+            if(DiscardCard::card_discarded)
+                learning_chips[player] += 1;
+        }
     }
     else
         qDebug()<<"fail";
@@ -395,7 +408,15 @@ void JoiningEatOrSoccer::main_play(int player)
 {
     qDebug()<<"This is eatorsoccer";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox::integrity_enabled = false;
+            ChipBox chip;
+        }
+        ChipBox::craft_enabled = true;
+    }
     else
         qDebug()<<"fail";
 }
@@ -413,7 +434,13 @@ void GetLateForClass::main_play(int player)
 {
     qDebug()<<"This is late for class";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 1;
+        MainWindow window;
+        window.relocate(20, MainWindow::players[player],
+                             MainWindow::y_offsets[player]);
+    }
     else
         qDebug()<<"fail";
 }
@@ -433,7 +460,10 @@ void SayGoodByeToProfessor::main_play(int player)
     if(pre_requisite_satified(player))
         qDebug()<<"Success";
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool SayGoodByeToProfessor::pre_requisite_satified(int player)
@@ -448,18 +478,21 @@ bool SayGoodByeToProfessor::pre_requisite_satified(int player)
         return false;
 }
 
-void SayGoodByeToProfessor::punishment()
-{
-
-}
 
 void PassMath123::main_play(int player)
 {
     qDebug()<<"This is pass math 123";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 3;
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool PassMath123::pre_requisite_satified(int player)
@@ -472,16 +505,18 @@ bool PassMath123::pre_requisite_satified(int player)
         return false;
 }
 
-void PassMath123::punishment()
-{
-
-}
 
 void PlayBigGame::main_play(int player)
 {
     qDebug()<<"This is play big game";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 1;
+        MainWindow window;
+        window.relocate(20, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
     else
         qDebug()<<"fail";
 }
@@ -495,18 +530,19 @@ bool PlayBigGame::pre_requisite_satified(int player)
         return false;
 }
 
-void PlayBigGame::punishment()
-{
-
-}
-
 void PassPhysics151::main_play(int player)
 {
     qDebug()<<"This is pass physics";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 3;
+    }
 }
 
 bool PassPhysics151::pre_requisite_satified(int player)
@@ -519,19 +555,23 @@ bool PassPhysics151::pre_requisite_satified(int player)
         return false;
 }
 
-void PassPhysics151::punishment()
-{
-
-}
-
 void PassKin253::main_play(int player)
 {
     qDebug()<<"This is passkin";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 2;
+    }
     else
+    {
         qDebug()<<"fail";
+        MainWindow window;
+        window.relocate(13, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
+
 
 bool PassKin253::pre_requisite_satified(int player)
 {
@@ -543,18 +583,19 @@ bool PassKin253::pre_requisite_satified(int player)
         return false;
 }
 
-void PassKin253::punishment()
-{
-
-}
-
 void LearnNetbeans::main_play(int player)
 {
     qDebug()<<"This is net beans";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 3;
+    }
 }
 
 bool LearnNetbeans::pre_requisite_satified(int player)
@@ -566,18 +607,20 @@ bool LearnNetbeans::pre_requisite_satified(int player)
         return false;
 }
 
-void LearnNetbeans::punishment()
-{
-
-}
 
 void ChooseMajor::main_play(int player)
 {
     qDebug()<<"This is choose major";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 3;
+    }
 }
 
 bool ChooseMajor::pre_requisite_satified(int player)
@@ -590,18 +633,22 @@ bool ChooseMajor::pre_requisite_satified(int player)
         return false;
 }
 
-void ChooseMajor::punishment()
-{
-
-}
-
 void ScoreGoal::main_play(int player)
 {
     qDebug()<<"This is score goal";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+        integrity_chips[player] += 1;
+    }
     else
+    {
         qDebug()<<"fail";
+        MainWindow window;
+        window.relocate(2, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
 
 bool ScoreGoal::pre_requisite_satified(int player)
@@ -614,18 +661,21 @@ bool ScoreGoal::pre_requisite_satified(int player)
         return false;
 }
 
-void ScoreGoal::punishment()
-{
-
-}
-
 void MakeDeansList::main_play(int player)
 {
     qDebug()<<"This is make dean list";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        MainWindow window;
+        window.relocate(2, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
 
 bool MakeDeansList::pre_requisite_satified(int player)
@@ -638,18 +688,19 @@ bool MakeDeansList::pre_requisite_satified(int player)
         return false;
 }
 
-void MakeDeansList::punishment()
-{
-
-}
-
 void PassSoccerClass::main_play(int player)
 {
     qDebug()<<"This is pass soccer class";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 3;
+    }
 }
 
 bool PassSoccerClass::pre_requisite_satified(int player)
@@ -662,18 +713,22 @@ bool PassSoccerClass::pre_requisite_satified(int player)
         return false;
 }
 
-void PassSoccerClass::punishment()
-{
-
-}
-
 void FallInPond::main_play(int player)
 {
     qDebug()<<"This is fallinpond";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        integrity_chips[player] += 1;
+        craft_chips[player] += 1;
+    }
     else
+    {
         qDebug()<<"fail";
+        MainWindow window;
+        window.relocate(20, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
 
 bool FallInPond::pre_requisite_satified(int player)
@@ -686,18 +741,23 @@ bool FallInPond::pre_requisite_satified(int player)
         return false;
 }
 
-void FallInPond::punishment()
-{
-
-}
-
 void UseNewLaptop::main_play(int player)
 {
     qDebug()<<"This is new laptop";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 3;
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool UseNewLaptop::pre_requisite_satified(int player)
@@ -710,18 +770,20 @@ bool UseNewLaptop::pre_requisite_satified(int player)
         return false;
 }
 
-void UseNewLaptop::punishment()
-{
-
-}
-
 void MeetDean::main_play(int player)
 {
     qDebug()<<"This is meet dean";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+        add_game_card_in_hand(player);
+    }
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool MeetDean::pre_requisite_satified(int player)
@@ -737,18 +799,20 @@ bool MeetDean::pre_requisite_satified(int player)
         return false;
 }
 
-void MeetDean::punishment()
-{
-
-}
-
 void CrashProgram::main_play(int player)
 {
     qDebug()<<"This is crash program";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+        add_game_card_in_hand(player);
+    }
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool CrashProgram::pre_requisite_satified(int player)
@@ -761,18 +825,19 @@ bool CrashProgram::pre_requisite_satified(int player)
         return false;
 }
 
-void CrashProgram::punishment()
-{
-
-}
-
 void PressFloorButton::main_play(int player)
 {
     qDebug()<<"This is press floor button";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 2;
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 2;
+    }
 }
 
 bool PressFloorButton::pre_requisite_satified(int player)
@@ -785,18 +850,22 @@ bool PressFloorButton::pre_requisite_satified(int player)
         return false;
 }
 
-void PressFloorButton::punishment()
-{
-
-}
-
 void MakeAlarmBuzz::main_play(int player)
 {
     qDebug()<<"This is make alarm buzz";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 2;
+    }
 }
 
 bool MakeAlarmBuzz::pre_requisite_satified(int player)
@@ -809,18 +878,22 @@ bool MakeAlarmBuzz::pre_requisite_satified(int player)
         return false;
 }
 
-void MakeAlarmBuzz::punishment()
-{
-
-}
-
 void MeetProfessorEnglert::main_play(int player)
 {
     qDebug()<<"This is englert";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool MeetProfessorEnglert::pre_requisite_satified(int player)
@@ -833,18 +906,22 @@ bool MeetProfessorEnglert::pre_requisite_satified(int player)
         return false;
 }
 
-void MeetProfessorEnglert::punishment()
-{
-
-}
-
 void BeSoccerGoalie::main_play(int player)
 {
     qDebug()<<"This is goalie";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+        add_game_card_in_hand(player);
+    }
     else
+    {
         qDebug()<<"fail";
+        MainWindow window;
+        window.relocate(2, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
 
 bool BeSoccerGoalie::pre_requisite_satified(int player)
@@ -858,18 +935,20 @@ bool BeSoccerGoalie::pre_requisite_satified(int player)
         return false;
 }
 
-void BeSoccerGoalie::punishment()
-{
-
-}
-
 void TakeElectiveClass::main_play(int player)
 {
     qDebug()<<"This is effective class";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        learning_chips[player] += 1;
+        add_game_card_in_hand(player);
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 2;
+    }
 }
 
 bool TakeElectiveClass::pre_requisite_satified(int player)
@@ -882,18 +961,25 @@ bool TakeElectiveClass::pre_requisite_satified(int player)
         return false;
 }
 
-void TakeElectiveClass::punishment()
-{
-
-}
 
 void MeetProfessorHoffman::main_play(int player)
 {
     qDebug()<<"This is hoffman";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+        add_game_card_in_hand(player);
+        add_game_card_in_hand(player);
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 5;
+        MainWindow window;
+        window.relocate(20, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
 
 bool MeetProfessorHoffman::pre_requisite_satified(int player)
@@ -908,16 +994,17 @@ bool MeetProfessorHoffman::pre_requisite_satified(int player)
         return false;
 }
 
-void MeetProfessorHoffman::punishment()
-{
-
-}
-
 void GoToOutpost::main_play(int player)
 {
     qDebug()<<"This is outpost";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
         qDebug()<<"fail";
 }
@@ -937,9 +1024,19 @@ void AttendOralCommunication::main_play(int player)
 {
     qDebug()<<"This is oral communication";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 4;
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool AttendOralCommunication::pre_requisite_satified(int player)
@@ -954,18 +1051,21 @@ bool AttendOralCommunication::pre_requisite_satified(int player)
         return false;
 }
 
-void AttendOralCommunication::punishment()
-{
-
-}
-
 void PassChemsitry111::main_play(int player)
 {
     qDebug()<<"This is pass chemistry";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 5;
+    }
     else
+    {
         qDebug()<<"fail";
+        MainWindow window;
+        window.relocate(2, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
 }
 
 bool PassChemsitry111::pre_requisite_satified(int player)
@@ -980,18 +1080,23 @@ bool PassChemsitry111::pre_requisite_satified(int player)
         return false;
 }
 
-void PassChemsitry111::punishment()
-{
-
-}
-
 void LearnLinux::main_play(int player)
 {
     qDebug()<<"This is learn linux";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 3;
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
+    {
         qDebug()<<"fail";
+        quality_points[player] -= 1;
+    }
 }
 
 bool LearnLinux::pre_requisite_satified(int player)
@@ -1005,18 +1110,24 @@ bool LearnLinux::pre_requisite_satified(int player)
         return false;
 }
 
-void LearnLinux::punishment()
-{
-
-}
 
 void MakeFriend::main_play(int player)
 {
     qDebug()<<"This is make friend";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        quality_points[player] += 3;
+        if(player == MainWindow::main_player_id)
+        {
+            ChipBox chip;
+        }
+    }
     else
+    {
         qDebug()<<"fail";
+        remove_game_card_from_hand(player);
+    }
 }
 
 bool MakeFriend::pre_requisite_satified(int player)
@@ -1029,16 +1140,17 @@ bool MakeFriend::pre_requisite_satified(int player)
         return false;
 }
 
-void MakeFriend::punishment()
-{
-
-}
-
 void EnjoyNature::main_play(int player)
 {
     qDebug()<<"This is enjoy nature";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 1;
+        MainWindow window;
+        window.relocate(20, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
     else
         qDebug()<<"fail";
 }
@@ -1058,7 +1170,14 @@ void ParkInStudentParking::main_play(int player)
 {
     qDebug()<<"This is parking in student parking";
     if(pre_requisite_satified(player))
+    {
         qDebug()<<"Success";
+        craft_chips[player] += 1;
+        MainWindow window;
+        window.relocate(20, MainWindow::players[player],
+                        MainWindow::y_offsets[player]);
+    }
+
     else
         qDebug()<<"fail";
 }
@@ -1070,4 +1189,87 @@ bool ParkInStudentParking::pre_requisite_satified(int player)
         return true;
     else
         return false;
+}
+
+void GamePlay::add_game_card_in_hand(int player)
+{
+    if(player == MainWindow::main_player_id)
+    {
+        randomize_deck();
+        int top_of_deck = complete_card_deck.value(0);
+        if(top_of_deck >= 0 && top_of_deck <= 51)
+        {
+             complete_card_deck.removeFirst();
+             cards_in_hand.insert(0,top_of_deck);
+             top_card_in_hand = 0;
+             MainWindow window;
+             window.set_icon_as_card();
+        }
+    }
+
+    else if(player == MainWindow::ai_player1_id)
+    {
+        randomize_deck();
+        int top_of_deck = complete_card_deck.value(0);
+        if(top_of_deck != 0)
+        {
+             complete_card_deck.removeFirst();
+             ai1_hand.insert(0,top_of_deck);
+        }
+    }
+
+    else
+    {
+        randomize_deck();
+        int top_of_deck = GamePlay::complete_card_deck.value(0);
+        if(top_of_deck != 0)
+        {
+             complete_card_deck.removeFirst();
+             ai2_hand.insert(0,top_of_deck);
+        }
+    }
+}
+
+void GamePlay::remove_game_card_from_hand(int player)
+{
+    if(player == MainWindow::main_player_id)
+    {
+        int hand = cards_in_hand.size();
+        int card_to_be_removed = gen_rand_number(hand);
+        if(card_to_be_removed != 0)
+        {
+            if(card_to_be_removed == top_card_in_hand)
+                cards_in_hand.removeAt(card_to_be_removed - 1);
+            else
+                cards_in_hand.removeAt(card_to_be_removed);
+        }
+        else
+        {
+            card_to_be_removed = 3;
+            if(card_to_be_removed == top_card_in_hand)
+                cards_in_hand.removeAt(card_to_be_removed - 1);
+            else
+                cards_in_hand.removeAt(card_to_be_removed);
+        }
+    }
+
+    if(player == MainWindow::ai_player1_id)
+    {
+        int hand = ai1_hand.size();
+        int card_to_be_removed = gen_rand_number(hand);
+        if(card_to_be_removed != 0)
+            ai1_hand.removeAt(card_to_be_removed);
+        else
+            ai1_hand.removeAt(1);
+    }
+
+    if(player == MainWindow::ai_player2_id)
+    {
+        int hand = ai2_hand.size();
+        int card_to_be_removed = gen_rand_number(hand);
+        if(card_to_be_removed != 0)
+            ai2_hand.removeAt(card_to_be_removed);
+        else
+            ai2_hand.removeAt(1);
+    }
 }
