@@ -50,6 +50,8 @@ public:
     static int current_postions[3];
     static int player_index;
     static int human_player_turns;
+    static int ai_player1_turns;
+    static int ai_player2_turns;
     explicit MainWindow(QWidget *parent = 0);
     int gen_rand_number(int max);
     ~MainWindow();
@@ -58,12 +60,10 @@ public:
 private slots:
     void on_move_clicked();
     void on_start_clicked();
-
     void on_card_holder_clicked();
-
     void on_draw_card_clicked();
-
     void on_play_card_clicked();
+
 
 private:
     Ui::MainWindow *ui;
@@ -76,6 +76,7 @@ private:
     void set_cards_in_hand();
     void set_icon_as_card();
     void setup_tables();
+    void ai_play(QWidget *player);
 };
 
 #endif // MAINWINDOW_H

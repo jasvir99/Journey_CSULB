@@ -26,6 +26,8 @@
 int GamePlay::total_points[3] = {};
 //int GamePlay::cards_in_hand[5] = {};
 int GamePlay::top_card_in_hand = 0;
+int GamePlay::top_card_in_hand_ai1 = 0;
+int GamePlay::top_card_in_hand_ai2 = 0;
 int GamePlay::craft_chips[3] = {};
 int GamePlay::learning_chips[3] = {};
 int GamePlay::integrity_chips[3] = {};
@@ -42,6 +44,8 @@ QList<int> empty_list()
 
 QList<int> GamePlay::cards_in_hand = empty_list();
 QList<int> GamePlay::complete_card_deck = empty_list();
+QList<int> GamePlay::ai1_hand = empty_list();
+QList<int> GamePlay::ai2_hand = empty_list();
 
 GamePlay::GamePlay()
 {
@@ -90,8 +94,10 @@ int GamePlay::gen_rand_number(int max)
     return b;
 }
 
-void GamePlay::randomize_deck()
+int GamePlay::randomize_deck()
 {
+    qDebug()<<"here5";
+
     int deck_size = complete_card_deck.size();
     if(deck_size == 0)
     {
@@ -104,6 +110,10 @@ void GamePlay::randomize_deck()
         complete_card_deck[i] = complete_card_deck[pos];
         complete_card_deck[pos] = temp;
     }
+    qDebug()<<"here6";
+
+    return 0;
+
 }
 
 void Cards::initialize_map_with_objects()

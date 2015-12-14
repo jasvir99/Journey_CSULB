@@ -37,7 +37,11 @@ public:
      static QList<int> complete_card_deck;
      bool already_have_card(int card_list_array[], int card_id, int array_size);
      explicit GamePlay();
-     void randomize_deck();
+     int randomize_deck();
+     static QList<int> ai1_hand;
+     static QList<int> ai2_hand;
+     static int top_card_in_hand_ai1;
+     static int top_card_in_hand_ai2;
      int gen_rand_number(int max);
      virtual void main_play(int player);
      static int learning_chips[3];
