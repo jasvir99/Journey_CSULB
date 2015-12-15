@@ -505,6 +505,7 @@ int MainWindow::move_ai_player(QWidget *player, int current_pos, int y_offset)
 
 void MainWindow::set_cards_in_hand()
 {
+    qDebug()<<"cards in hand added";
     GamePlay game_play;
     game_play.randomize_deck();
     for(int i=1; i<=5; i++)
@@ -700,13 +701,19 @@ void MainWindow::on_play_card_clicked()
 
     if(level == 1)
     {
+        int number_of_players = 0;
         for(int i = 0; i < 3; i++)
         {
             if(GamePlay::quality_points[i] > 60)
             {
+                number_of_players += 1;
+            }
+
+            if(number_of_players == 3)
+            {
+                level = 2;
                 GamePlay game;
                 game.increase_level();
-                break;
             }
         }
     }
