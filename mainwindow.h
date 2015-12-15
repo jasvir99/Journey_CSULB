@@ -54,6 +54,7 @@ public:
     static int ai_player1_turns;
     static int ai_player2_turns;
     static int y_offsets[3];
+    static int level;
     explicit MainWindow(bool prepare,QWidget *parent = 0);
     int gen_rand_number(int max);
     ~MainWindow();
@@ -61,6 +62,7 @@ public:
     void set_icon_as_card();
     void relocate(int place_id, QWidget *player, int y_offset);
     void refresh_information_panel();
+    void set_cards_in_hand();
 
 private slots:
     void on_move_clicked();
@@ -77,7 +79,6 @@ private:
     void prepare_board();
     void render_room_list(int place_id);
     int move_ai_player(QWidget *player, int current_pos, int y_offset);
-    void set_cards_in_hand();
     void setup_tables();
     void ai_play(int player);
     void ai_draw_card(int player);

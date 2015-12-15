@@ -43,13 +43,18 @@ public:
      static int top_card_in_hand_ai1;
      static int top_card_in_hand_ai2;
      int gen_rand_number(int max);
-     virtual bool main_play(int player);
+     virtual QString main_play(int player);
      static int learning_chips[3];
      static int craft_chips[3];
      static int quality_points[3];
      static int integrity_chips[3];
      void add_game_card_in_hand(int player);
      void remove_game_card_from_hand(int player);
+     static int deck_for_second_level[12];
+     static int cards_to_be_removed[11];
+     void increase_level();
+     QString result_string;
+
 
     //public content
 
@@ -70,7 +75,7 @@ public:
 class Cecs105 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -78,7 +83,7 @@ public:
 class Maths122 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -86,84 +91,84 @@ public:
 class LunchAtBrawtrustHall : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ResearchOnCompilers : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class Cecs174 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class Cecs100 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ExerciseInRecreation : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class FindLabUsingElevators : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class EnjoyPeace : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ParkingViolation : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class JoiningEatOrSoccer : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class GetLateForClass : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class SayGoodByeToProfessor : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class PassMath123 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -171,7 +176,7 @@ public:
 class PlayBigGame : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -179,7 +184,7 @@ public:
 class PassPhysics151 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -187,7 +192,7 @@ public:
 class PassKin253 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -195,7 +200,7 @@ public:
 class LearnNetbeans : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -203,7 +208,7 @@ public:
 class ChooseMajor : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -211,7 +216,7 @@ public:
 class ScoreGoal : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -219,7 +224,7 @@ public:
 class MakeDeansList : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 
@@ -228,7 +233,7 @@ public:
 class PassSoccerClass : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -236,7 +241,7 @@ public:
 class FallInPond : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -244,7 +249,7 @@ public:
 class UseNewLaptop : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -252,7 +257,7 @@ public:
 class MeetDean : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -260,7 +265,7 @@ public:
 class CrashProgram : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -268,7 +273,7 @@ public:
 class PressFloorButton : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -276,7 +281,7 @@ public:
 class MakeAlarmBuzz : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -284,7 +289,7 @@ public:
 class MeetProfessorEnglert : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -292,7 +297,7 @@ public:
 class BeSoccerGoalie : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -300,7 +305,7 @@ public:
 class TakeElectiveClass : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -308,7 +313,7 @@ public:
 class MeetProfessorHoffman : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -316,14 +321,14 @@ public:
 class GoToOutpost : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class AttendOralCommunication : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -331,7 +336,7 @@ public:
 class PassChemsitry111 : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -339,7 +344,7 @@ public:
 class LearnLinux : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -347,7 +352,7 @@ public:
 class MakeFriend : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 
 };
@@ -355,17 +360,111 @@ public:
 class EnjoyNature : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 class ParkInStudentParking : public GamePlay
 {
 public:
-    bool main_play(int player);
+    QString main_play(int player);
     bool pre_requisite_satified(int player);
 };
 
 
+class LbsuVsUci : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class CarPool : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Cecs274 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Cecs201 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Engl317 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Phys152 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Phil270 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Cecs228 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Cecs277 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Cecs285 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class Cecs282 : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
+
+
+class HaveSwim : public GamePlay
+{
+public:
+    QString main_play(int player);
+    bool pre_requisite_satified(int player);
+};
 
 #endif // CARDS

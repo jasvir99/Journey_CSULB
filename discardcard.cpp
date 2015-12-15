@@ -26,7 +26,6 @@ void DiscardCard::set_discard_list()
                                                 ));
     QString card_name = ":/images/resources/" + top_deck_card + ".png";
     QPixmap* top_card = new QPixmap(card_name);
-    qDebug()<<card_name;
     QIcon ButtonIcon(*top_card);
     ui->card_to_be_discarded->setIcon(QIcon());
     ui->card_to_be_discarded->setIcon(ButtonIcon);
